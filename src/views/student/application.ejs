@@ -154,22 +154,32 @@
           <div class="form-group">
             <label class="form-label">Primary Program Choice <span class="required">*</span></label>
             <select name="programId" class="form-select" required>
-              <% programs.forEach(p => { %>
-                <option value="<%= p._id %>" <%= application.preferences?.program?.toString() === p._id.toString() || application.preferences?.program?._id?.toString() === p._id.toString() ? 'selected' : '' %>>
-                  <%= p.name %>
-                </option>
-              <% }) %>
+              <% if (!programs || programs.length === 0) { %>
+                <option value="" disabled selected>No programs found (Database needs seeding)</option>
+              <% } else { %>
+                <option value="" disabled <%= (!application.preferences?.program) ? 'selected' : '' %>>-- Select Academic Program --</option>
+                <% programs.forEach(p => { %>
+                  <option value="<%= p._id %>" <%= (application.preferences?.program?.toString() === p._id.toString() || application.preferences?.program?._id?.toString() === p._id.toString()) ? 'selected' : '' %>>
+                    <%= p.name %>
+                  </option>
+                <% }) %>
+              <% } %>
             </select>
           </div>
 
           <div class="form-group">
             <label class="form-label">Campus Preference <span class="required">*</span></label>
             <select name="campusId" class="form-select" required>
-              <% campuses.forEach(c => { %>
-                <option value="<%= c._id %>" <%= application.preferences?.campus?.toString() === c._id.toString() || application.preferences?.campus?._id?.toString() === c._id.toString() ? 'selected' : '' %>>
-                  <%= c.name %> (<%= c.city %>)
-                </option>
-              <% }) %>
+              <% if (!campuses || campuses.length === 0) { %>
+                <option value="" disabled selected>No campuses found (Database needs seeding)</option>
+              <% } else { %>
+                <option value="" disabled <%= (!application.preferences?.campus) ? 'selected' : '' %>>-- Select Campus Location --</option>
+                <% campuses.forEach(c => { %>
+                  <option value="<%= c._id %>" <%= (application.preferences?.campus?.toString() === c._id.toString() || application.preferences?.campus?._id?.toString() === c._id.toString()) ? 'selected' : '' %>>
+                    <%= c.name %> (<%= c.city %>)
+                  </option>
+                <% }) %>
+              <% } %>
             </select>
           </div>
         </div>
