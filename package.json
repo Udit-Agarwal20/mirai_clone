@@ -26,8 +26,8 @@
     "morgan": "^1.10.0"
   },
   "engines": {
-  "node": "22.x"
-},
+    "node": ">=18.0.0"
+  },
   "author": "NOVA Institute of Technology",
   "license": "ISC"
 }

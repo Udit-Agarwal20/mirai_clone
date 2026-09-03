@@ -2,16 +2,17 @@ require('dotenv').config();
 const app = require('./src/app');
 const connectDB = require('./src/config/db');
 
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+const HOST = '0.0.0.0';
 
 const startServer = async () => {
   try {
     await connectDB();
 
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, HOST, () => {
       console.log(`\n======================================================`);
       console.log(`🚀 NOVA Institute of Technology Server is Live!`);
-      console.log(`📡 URL: http://localhost:${PORT}`);
+      console.log(`📡 Listening on: http://${HOST}:${PORT}`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`======================================================\n`);
     });

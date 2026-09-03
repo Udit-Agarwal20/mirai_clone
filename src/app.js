@@ -21,6 +21,9 @@ const apiRoutes = require('./routes/apiRoutes');
 
 const app = express();
 
+// Trust reverse proxy (required for Render / HTTPS cookies)
+app.set('trust proxy', 1);
+
 // Security and performance middleware
 app.use(
   helmet({
