@@ -1,0 +1,210 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Cost & Scholarship Planner</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Cost & Financing Planner</h1>
+    <p class="lead" style="max-width: 780px;">
+      Transparent 4-year tuition, campus residency, scholarship discount, and low-interest monthly financing planner.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="grid grid-1-2" style="gap: 3rem; align-items: start;">
+      <!-- Left Configurator Form (Supports SSR Form POST as well as Live AJAX) -->
+      <div class="card" style="padding: 2.25rem;">
+        <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem;">Configure Your Plan</h3>
+
+        <form action="/fees/calculate" method="POST" id="feeCalculatorForm">
+          <!-- 1. Program Selection -->
+          <div class="form-group">
+            <label class="form-label" for="calcProgram">1. Academic Program <span class="required">*</span></label>
+            <select name="programId" id="calcProgram" class="form-select">
+              <% programs.forEach(p => { %>
+                <option value="<%= p._id %>" <%= selectedProgram && selectedProgram._id.toString() === p._id.toString() ? 'selected' : '' %>>
+                  <%= p.name %> (<%= formatCurrency(p.fees.tuitionPerYear) %>/yr)
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <!-- 2. Campus Selection -->
+          <div class="form-group">
+            <label class="form-label" for="calcCampus">2. Innovation Campus <span class="required">*</span></label>
+            <select name="campusId" id="calcCampus" class="form-select">
+              <% campuses.forEach(c => { %>
+                <option value="<%= c._id %>" <%= selectedCampus && selectedCampus._id.toString() === c._id.toString() ? 'selected' : '' %>>
+                  <%= c.name %> (<%= c.city %>)
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <!-- 3. Hostel Accommodation -->
+          <div class="form-group">
+            <label class="form-label">3. Campus Accommodation</label>
+            <div class="form-check">
+              <input type="checkbox" name="hostel" id="calcHostelToggle" class="form-check-input" <%= includeHostel ? 'checked' : '' %>>
+              <label for="calcHostelToggle" class="form-check-label">
+                Include Campus Residential Hostel & Meals
+              </label>
+            </div>
+          </div>
+
+          <!-- 4. Scholarship Option -->
+          <div class="form-group">
+            <label class="form-label" for="calcScholarship">4. Scholarship / Fellowship Waiver</label>
+            <select name="scholarshipId" id="calcScholarship" class="form-select">
+              <option value="none">No Scholarship Applied (0% Waiver)</option>
+              <% scholarships.forEach(s => { %>
+                <option value="<%= s._id %>" <%= selectedScholarship && selectedScholarship._id.toString() === s._id.toString() ? 'selected' : '' %>>
+                  <%= s.name %> (<%= s.percentage %>% Tuition Waiver)
+                </option>
+              <% }) %>
+            </select>
+            <div class="form-hint"><a href="/scholarships" style="color: var(--accent-blue); text-decoration: underline;">Check your scholarship eligibility &rarr;</a></div>
+          </div>
+
+          <!-- 5. Financing Tenure -->
+          <div class="form-group">
+            <label class="form-label" for="calcTenure">5. Financing Tenure (Monthly EMI)</label>
+            <select name="tenure" id="calcTenure" class="form-select">
+              <option value="36" <%= financingTenure === 36 ? 'selected' : '' %>>36 Months (3 Years)</option>
+              <option value="48" <%= financingTenure === 48 ? 'selected' : '' %>>48 Months (4 Years - Recommended)</option>
+              <option value="60" <%= financingTenure === 60 ? 'selected' : '' %>>60 Months (5 Years)</option>
+            </select>
+            <div class="form-hint">Estimated at 8.5% annual APR with partner education loan providers.</div>
+          </div>
+
+          <button type="submit" class="btn btn-secondary btn-full" style="margin-top: 1rem;">Update Projection (SSR) &rarr;</button>
+        </form>
+      </div>
+
+      <!-- Right Summary Breakdown View -->
+      <div>
+        <% if (calculation) { %>
+          <div class="card" style="padding: 2.5rem; border: 2px solid #000000; background-color: var(--bg-surface); margin-bottom: 2rem;" id="feeSummaryCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-light); flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">PROGRAM & CAMPUS</div>
+                <h3 style="font-size: 1.25rem;"><%= calculation.program.name %></h3>
+                <div style="font-size: 0.8125rem; color: var(--text-secondary);"><%= calculation.campus ? calculation.campus.name : 'All Campuses' %></div>
+              </div>
+              <div>
+                <span class="badge badge-accent" id="displayScholarshipBadge"><%= calculation.scholarship.name %></span>
+              </div>
+            </div>
+
+            <!-- Cost Items Table -->
+            <div style="display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 2rem;">
+              <div class="calc-row">
+                <span style="color: var(--text-secondary);">One-Time Registration & Admission Fee</span>
+                <strong id="displayRegFee"><%= formatCurrency(calculation.breakdown.registrationFee) %></strong>
+              </div>
+
+              <div class="calc-row">
+                <span style="color: var(--text-secondary);">4-Year Tuition Fees (8 Semesters)</span>
+                <strong id="displayTuitionFee"><%= formatCurrency(calculation.breakdown.tuitionFourYears) %></strong>
+              </div>
+
+              <div class="calc-row">
+                <span style="color: var(--text-secondary);">4-Year Lab & High-Performance Compute Access</span>
+                <strong id="displayLabFee"><%= formatCurrency(calculation.breakdown.labFeesFourYears) %></strong>
+              </div>
+
+              <div class="calc-row">
+                <span style="color: var(--text-secondary);">4-Year Residential Accommodation & Meals</span>
+                <strong id="displayHostelFee"><%= formatCurrency(calculation.breakdown.hostelFourYears) %></strong>
+              </div>
+
+              <div class="calc-row" style="padding-top: 0.75rem; border-top: 1px solid var(--border-light);">
+                <span style="color: var(--text-secondary); font-weight: 600;">Gross 4-Year Total</span>
+                <strong id="displaySubtotal"><%= formatCurrency(calculation.breakdown.grossSubtotal) %></strong>
+              </div>
+
+              <div class="calc-row" style="color: var(--brand-emerald);">
+                <span style="font-weight: 600;">Scholarship Waiver (<%= calculation.scholarship.percentage %>%)</span>
+                <strong id="displayScholarshipWaiver">- <%= formatCurrency(calculation.breakdown.scholarshipWaiver) %></strong>
+              </div>
+
+              <div class="calc-row" style="padding-top: 1rem; border-top: 2px solid #000000; font-size: 1.25rem;">
+                <span style="font-weight: 800;">Estimated Net 4-Year Investment</span>
+                <strong style="font-family: var(--font-mono); font-size: 1.5rem; color: var(--text-primary);" id="displayNetTotal">
+                  <%= formatCurrency(calculation.breakdown.netTotalEstimated) %>
+                </strong>
+              </div>
+            </div>
+
+            <!-- Monthly Financing Highlight Box -->
+            <div style="background-color: var(--bg-dark); color: #ffffff; padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-inverse-muted);">ESTIMATED MONTHLY FINANCING (EMI)</div>
+                <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 800; color: #ffffff;" id="displayMonthlyEmi">
+                  <%= formatCurrency(calculation.financing.monthlyEstimate) %><span style="font-size: 0.8125rem; font-weight: 400; color: var(--text-inverse-muted);">/mo</span>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <span class="badge badge-accent" id="displayTenureMonths"><%= calculation.financing.tenureMonths %> Months</span>
+                <div style="font-size: 0.75rem; color: var(--text-inverse-muted); margin-top: 0.25rem;">Zero upfront collateral option</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons / Save Calculation for Logged-In Students -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="/student/application" class="btn btn-primary" style="flex: 1;">Start Application & Lock Seat &rarr;</a>
+
+              <% if (isAuthenticated && isStudent) { %>
+                <form action="/fees/save" method="POST" style="flex: 1;">
+                  <input type="hidden" name="programId" value="<%= calculation.program.id %>">
+                  <input type="hidden" name="campusId" value="<%= calculation.campus ? calculation.campus.id : '' %>">
+                  <input type="hidden" name="includeHostel" value="<%= calculation.hostelIncluded %>">
+                  <input type="hidden" name="hostelOptionName" value="<%= calculation.campus ? calculation.campus.roomType : '' %>">
+                  <input type="hidden" name="scholarshipId" value="<%= selectedScholarship ? selectedScholarship._id : 'none' %>">
+                  <input type="hidden" name="tenure" value="<%= calculation.financing.tenureMonths %>">
+                  <button type="submit" class="btn btn-secondary btn-full">★ Save to Dashboard</button>
+                </form>
+              <% } else { %>
+                <a href="/auth/login" class="btn btn-secondary" style="flex: 1;">Sign In to Save Plan</a>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Semester Breakdown Table -->
+          <div class="card" style="padding: 2rem;">
+            <h4 style="font-size: 1.15rem; margin-bottom: 1rem;">Year-by-Year Schedule</h4>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Year</th>
+                    <th>Tuition</th>
+                    <th>Hostel</th>
+                    <th>Waiver</th>
+                    <th>Net Annual</th>
+                    <th>Per Semester</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% calculation.breakdown.yearlyBreakdown.forEach(yb => { %>
+                    <tr>
+                      <td><strong>Year <%= yb.year %></strong></td>
+                      <td><%= formatCurrency(yb.tuitionFee + yb.labFee + yb.registrationFee) %></td>
+                      <td><%= formatCurrency(yb.hostelFee) %></td>
+                      <td style="color: var(--brand-emerald);">- <%= formatCurrency(yb.scholarshipDiscount) %></td>
+                      <td><strong><%= formatCurrency(yb.netPayable) %></strong></td>
+                      <td style="font-family: var(--font-mono); font-size: 0.8125rem;"><%= formatCurrency(yb.semesterPayable) %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/feeCalculator.js"></script>

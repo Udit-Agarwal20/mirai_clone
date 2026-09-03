@@ -1,0 +1,64 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Student Projects Portfolio Management</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage showcase projects across AI, Web, Robotics, and Startups.</p>
+  </div>
+  <a href="/admin/projects/new" class="btn btn-primary">+ Add New Project</a>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Project Title</th>
+        <th>Category</th>
+        <th>Academic Year</th>
+        <th>Technology</th>
+        <th>Featured</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (projects && projects.length > 0) { %>
+        <% projects.forEach(project => { %>
+          <tr>
+            <td>
+              <strong><%= project.title %></strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= project.slug %></div>
+            </td>
+            <td>
+              <span class="badge badge-accent"><%= project.category %></span>
+            </td>
+            <td>Year <%= project.year %></td>
+            <td>
+              <div style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+                <% if (project.technology) { %>
+                  <% project.technology.slice(0, 3).forEach(t => { %>
+                    <span class="pill-tag" style="font-size: 0.65rem;"><%= t %></span>
+                  <% }) %>
+                <% } %>
+              </div>
+            </td>
+            <td>
+              <span class="badge <%= project.featured ? 'badge-success' : 'badge-subtle' %>">
+                <%= project.featured ? 'Featured' : 'Standard' %>
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="/admin/projects/<%= project._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <form action="/admin/projects/<%= project._id %>/delete" method="POST" onsubmit="return confirm('Delete this project?');" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 3rem;">No projects found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

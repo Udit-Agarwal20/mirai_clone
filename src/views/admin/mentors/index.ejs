@@ -1,0 +1,62 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Faculty & Industry Mentors</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage industry mentors and academic fellows.</p>
+  </div>
+  <a href="/admin/mentors/new" class="btn btn-primary">+ Add Mentor</a>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Mentor Name</th>
+        <th>Role & Company</th>
+        <th>Expertise</th>
+        <th>Featured</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (mentors && mentors.length > 0) { %>
+        <% mentors.forEach(mentor => { %>
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="<%= mentor.image %>" alt="<%= mentor.name %>" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+                <strong><%= mentor.name %></strong>
+              </div>
+            </td>
+            <td><%= mentor.role %> @ <strong><%= mentor.company %></strong></td>
+            <td>
+              <div style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+                <% if (mentor.expertise) { %>
+                  <% mentor.expertise.slice(0, 2).forEach(exp => { %>
+                    <span class="pill-tag" style="font-size: 0.65rem;"><%= exp %></span>
+                  <% }) %>
+                <% } %>
+              </div>
+            </td>
+            <td>
+              <span class="badge <%= mentor.featured ? 'badge-success' : 'badge-subtle' %>">
+                <%= mentor.featured ? 'Featured' : 'Standard' %>
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="/admin/mentors/<%= mentor._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <form action="/admin/mentors/<%= mentor._id %>/delete" method="POST" onsubmit="return confirm('Delete this mentor?');" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">No mentors found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

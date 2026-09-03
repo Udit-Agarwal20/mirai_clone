@@ -1,0 +1,258 @@
+/* ==========================================================================
+   STUDENT DASHBOARD & APPLICATION TRACKER STYLING
+   ========================================================================== */
+
+.dashboard-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  padding: 3rem 0 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-user-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar-initials {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.app-id-badge {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  background-color: var(--bg-muted);
+  color: var(--text-primary);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-medium);
+}
+
+/* Action Banner */
+.action-banner {
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.action-banner.action-banner-action {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e3a8a;
+}
+
+.action-banner.action-banner-success {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.action-banner.action-banner-warning {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+.action-banner.action-banner-info {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+}
+
+/* Visual Stage Progress Tracker */
+.timeline-tracker-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 2.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.tracker-heading {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+
+.tracker-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  gap: 1rem;
+}
+
+.tracker-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.step-node {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  border: 2px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  transition: var(--transition);
+}
+
+.tracker-step.completed .step-node {
+  background-color: #000000;
+  border-color: #000000;
+  color: #ffffff;
+}
+
+.tracker-step.active .step-node {
+  background-color: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+.step-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.tracker-step.active .step-label {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.tracker-step.completed .step-label {
+  color: var(--text-primary);
+}
+
+.step-status-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Detail Timeline Log */
+.timeline-log {
+  border-left: 2px solid var(--border-light);
+  padding-left: 1.5rem;
+  margin-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.log-item {
+  position: relative;
+}
+
+.log-item::before {
+  content: '';
+  position: absolute;
+  left: -1.9rem;
+  top: 0.25rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #000000;
+}
+
+.log-stage {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+}
+
+.log-time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.log-note {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Saved Calculation Item */
+.calc-summary-box {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.calc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.calc-row:last-child {
+  margin-bottom: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-light);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .tracker-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .tracker-step {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .step-node {
+    margin-bottom: 0;
+  }
+}

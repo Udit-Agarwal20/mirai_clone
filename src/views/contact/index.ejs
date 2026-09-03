@@ -1,0 +1,109 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Contact & Support</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Contact Admissions & Support</h1>
+    <p class="lead" style="max-width: 780px;">
+      Have questions about curriculum, scholarships, hostels, or application status? Reach out to our admissions advisors across Bengaluru, Hyderabad, and Pune.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="grid grid-2" style="gap: 3.5rem; align-items: start;">
+      <!-- Contact Form -->
+      <div class="card" style="padding: 2.5rem;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Submit an Inquiry</h2>
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.75rem;">
+          Our academic admissions team responds within 24 hours.
+        </p>
+
+        <form action="/contact" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contactName">Full Name <span class="required">*</span></label>
+              <input type="text" id="contactName" name="name" class="form-control" placeholder="e.g. Rahul Verma" required value="<%= formData.name || '' %>">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Email Address <span class="required">*</span></label>
+              <input type="email" id="contactEmail" name="email" class="form-control" placeholder="e.g. rahul@example.com" required value="<%= formData.email || '' %>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contactPhone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="contactPhone" name="phone" class="form-control" placeholder="e.g. +91 98765 43210" required value="<%= formData.phone || '' %>">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactSubject">Subject <span class="required">*</span></label>
+              <input type="text" id="contactSubject" name="subject" class="form-control" placeholder="e.g. Hostel accommodation query" required value="<%= formData.subject || '' %>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Program of Interest</label>
+              <select name="programInterest" class="form-select">
+                <option value="">-- Select Program (Optional) --</option>
+                <% if (programs && programs.length > 0) { %>
+                  <% programs.forEach(p => { %>
+                    <option value="<%= p._id %>" <%= formData.programInterest === p._id.toString() ? 'selected' : '' %>><%= p.name %></option>
+                  <% }) %>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Campus Preference</label>
+              <select name="campusInterest" class="form-select">
+                <option value="">-- Select Campus (Optional) --</option>
+                <% if (campuses && campuses.length > 0) { %>
+                  <% campuses.forEach(c => { %>
+                    <option value="<%= c._id %>" <%= formData.campusInterest === c._id.toString() ? 'selected' : '' %>><%= c.name %></option>
+                  <% }) %>
+                <% } %>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Your Message / Question <span class="required">*</span></label>
+            <textarea id="contactMessage" name="message" class="form-textarea" rows="4" placeholder="Tell us how we can help you with admissions, eligibility, or campus tours..." required><%= formData.message || '' %></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-full">Submit Inquiry &rarr;</button>
+        </form>
+      </div>
+
+      <!-- Campus Contact Details -->
+      <div>
+        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Admissions Offices</h2>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <% if (campuses && campuses.length > 0) { %>
+            <% campuses.forEach(campus => { %>
+              <div class="card" style="padding: 1.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <h3 style="font-size: 1.2rem;"><%= campus.name %></h3>
+                  <span class="badge badge-dark"><%= campus.city %></span>
+                </div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                  <%= campus.address %>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 0.8125rem; display: flex; flex-direction: column; gap: 0.25rem;">
+                  <div>📞 <%= campus.contactPhone %></div>
+                  <div>✉️ <a href="mailto:<%= campus.contactEmail %>" style="color: var(--accent-blue);"><%= campus.contactEmail %></a></div>
+                </div>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

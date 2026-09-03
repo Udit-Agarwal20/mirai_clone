@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Admin Portal | NOVA Institute of Technology' %></title>
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <%- style %>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <span class="brand-mark">N</span>
+        <div>
+          <div style="font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: #ffffff;">NOVA ADMIN</div>
+          <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-inverse-muted);">CONTROL CENTER</div>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <a href="/admin" class="admin-nav-link <%= currentPath === '/admin' ? 'active' : '' %>">
+          <span>📊 Dashboard Overview</span>
+        </a>
+        <a href="/admin/applications" class="admin-nav-link <%= currentPath.startsWith('/admin/applications') ? 'active' : '' %>">
+          <span>📝 Applications</span>
+        </a>
+        <a href="/admin/students" class="admin-nav-link <%= currentPath.startsWith('/admin/students') ? 'active' : '' %>">
+          <span>🎓 Students Roster</span>
+        </a>
+
+        <div class="admin-nav-heading">Institutional Content</div>
+        <a href="/admin/programs" class="admin-nav-link <%= currentPath.startsWith('/admin/programs') ? 'active' : '' %>">
+          <span>📚 Academic Programs</span>
+        </a>
+        <a href="/admin/campuses" class="admin-nav-link <%= currentPath.startsWith('/admin/campuses') ? 'active' : '' %>">
+          <span>🏛️ Campuses</span>
+        </a>
+        <a href="/admin/scholarships" class="admin-nav-link <%= currentPath.startsWith('/admin/scholarships') ? 'active' : '' %>">
+          <span>💰 Scholarships</span>
+        </a>
+        <a href="/admin/projects" class="admin-nav-link <%= currentPath.startsWith('/admin/projects') ? 'active' : '' %>">
+          <span>🚀 Student Projects</span>
+        </a>
+        <a href="/admin/mentors" class="admin-nav-link <%= currentPath.startsWith('/admin/mentors') ? 'active' : '' %>">
+          <span>👥 Mentors & Faculty</span>
+        </a>
+
+        <div class="admin-nav-heading">Admissions & Comms</div>
+        <a href="/admin/events" class="admin-nav-link <%= currentPath.startsWith('/admin/events') ? 'active' : '' %>">
+          <span>📅 Events & Deadlines</span>
+        </a>
+        <a href="/admin/announcements" class="admin-nav-link <%= currentPath.startsWith('/admin/announcements') ? 'active' : '' %>">
+          <span>📢 Top Announcements</span>
+        </a>
+        <a href="/admin/enquiries" class="admin-nav-link <%= currentPath.startsWith('/admin/enquiries') ? 'active' : '' %>">
+          <span>✉️ Contact Inquiries</span>
+        </a>
+
+        <div style="margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--border-dark);">
+          <a href="/" target="_blank" class="admin-nav-link" style="margin-bottom: 0.5rem;">
+            <span>🌐 View Public Website ↗</span>
+          </a>
+          <form action="/auth/logout" method="POST">
+            <button type="submit" class="admin-nav-link" style="background: none; border: none; width: 100%; cursor: pointer; color: #f87171;">
+              <span>🚪 Sign Out</span>
+            </button>
+          </form>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Admin Content Area -->
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 1.5rem;"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Admin Portal' %></h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-secondary);">
+            Logged in as: <strong><%= currentUser ? currentUser.name : 'Administrator' %></strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flash Notifications in Admin -->
+      <%- include('../partials/flashMessages') %>
+
+      <!-- Dynamic Admin Page Body -->
+      <%- body %>
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+  <%- script %>
+</body>
+</html>

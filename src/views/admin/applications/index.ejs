@@ -1,0 +1,91 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Candidate Applications</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Filter, inspect and manage student admission statuses.</p>
+  </div>
+</div>
+
+<!-- Filters Form -->
+<div class="card" style="padding: 1.25rem; margin-bottom: 2rem;">
+  <form action="/admin/applications" method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 240px;">
+      <input type="text" name="search" class="form-control" placeholder="Search by Candidate Name, Email, or Application ID..." value="<%= searchQuery %>">
+    </div>
+
+    <div style="width: 200px;">
+      <select name="status" class="form-select" onchange="this.form.submit()">
+        <option value="ALL" <%= currentStatus === 'ALL' ? 'selected' : '' %>>All Statuses</option>
+        <option value="DRAFT" <%= currentStatus === 'DRAFT' ? 'selected' : '' %>>DRAFT</option>
+        <option value="SUBMITTED" <%= currentStatus === 'SUBMITTED' ? 'selected' : '' %>>SUBMITTED</option>
+        <option value="UNDER_REVIEW" <%= currentStatus === 'UNDER_REVIEW' ? 'selected' : '' %>>UNDER_REVIEW</option>
+        <option value="ASSESSMENT" <%= currentStatus === 'ASSESSMENT' ? 'selected' : '' %>>ASSESSMENT</option>
+        <option value="INTERVIEW" <%= currentStatus === 'INTERVIEW' ? 'selected' : '' %>>INTERVIEW</option>
+        <option value="OFFERED" <%= currentStatus === 'OFFERED' ? 'selected' : '' %>>OFFERED</option>
+        <option value="ENROLLED" <%= currentStatus === 'ENROLLED' ? 'selected' : '' %>>ENROLLED</option>
+        <option value="REJECTED" <%= currentStatus === 'REJECTED' ? 'selected' : '' %>>REJECTED</option>
+      </select>
+    </div>
+
+    <div style="width: 220px;">
+      <select name="program" class="form-select" onchange="this.form.submit()">
+        <option value="ALL" <%= currentProgram === 'ALL' ? 'selected' : '' %>>All Programs</option>
+        <% programs.forEach(p => { %>
+          <option value="<%= p._id %>" <%= currentProgram === p._id.toString() ? 'selected' : '' %>><%= p.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <% if (searchQuery || currentStatus !== 'ALL' || currentProgram !== 'ALL') { %>
+      <a href="/admin/applications" class="btn btn-secondary">Reset</a>
+    <% } %>
+  </form>
+</div>
+
+<!-- Table -->
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Application ID</th>
+        <th>Candidate Details</th>
+        <th>Program & Campus</th>
+        <th>PCM %</th>
+        <th>Status</th>
+        <th>Submitted Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (applications && applications.length > 0) { %>
+        <% applications.forEach(app => { %>
+          <tr>
+            <td style="font-family: var(--font-mono); font-weight: 700;"><%= app.applicationId %></td>
+            <td>
+              <strong><%= app.personalInfo ? app.personalInfo.fullName : 'Applicant' %></strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= app.personalInfo?.email %> • <%= app.personalInfo?.phone %></div>
+            </td>
+            <td>
+              <div><%= app.preferences?.program ? app.preferences.program.name : 'N/A' %></div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= app.preferences?.campus ? app.preferences.campus.city : 'N/A' %></div>
+            </td>
+            <td style="font-family: var(--font-mono);"><%= app.academicInfo?.pcmPercentage %>%</td>
+            <td>
+              <span class="badge <%= app.status === 'OFFERED' || app.status === 'ENROLLED' ? 'badge-success' : (app.status === 'REJECTED' ? 'badge-warning' : 'badge-accent') %>">
+                <%= app.status %>
+              </span>
+            </td>
+            <td style="font-size: 0.8125rem;"><%= formatDate(app.createdAt) %></td>
+            <td>
+              <a href="/admin/applications/<%= app._id %>" class="btn btn-sm btn-primary">Review Details &rarr;</a>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 3rem;">No applications matched your filter.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,86 @@
+<div style="margin-bottom: 2rem;">
+  <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+    <a href="/admin/scholarships">Scholarships</a> / <span style="color: var(--text-primary);"><%= isEdit ? `Edit: ${scholarship.name}` : 'New Scholarship' %></span>
+  </div>
+  <h2 style="font-size: 1.75rem;"><%= isEdit ? `Edit Scholarship: ${scholarship.name}` : 'Create Scholarship Program' %></h2>
+</div>
+
+<div class="card" style="padding: 2.5rem; max-width: 860px;">
+  <form action="<%= isEdit ? `/admin/scholarships/${scholarship._id}` : '/admin/scholarships' %>" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="schName">Scholarship Title <span class="required">*</span></label>
+        <input type="text" id="schName" name="name" class="form-control" placeholder="e.g. Founders Merit Fellowship" required value="<%= scholarship.name || '' %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="schSlug">URL Slug</label>
+        <input type="text" id="schSlug" name="slug" class="form-control" placeholder="founders-merit-fellowship" value="<%= scholarship.slug || '' %>">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="percentage">Tuition Waiver Percentage (%) <span class="required">*</span></label>
+        <input type="number" id="percentage" name="percentage" class="form-control" min="0" max="100" required value="<%= scholarship.percentage || 50 %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="category">Category</label>
+        <select name="category" id="category" class="form-select">
+          <option value="Merit" <%= scholarship.category === 'Merit' ? 'selected' : '' %>>Merit</option>
+          <option value="Women in Tech" <%= scholarship.category === 'Women in Tech' ? 'selected' : '' %>>Women in Tech</option>
+          <option value="Need-Based" <%= scholarship.category === 'Need-Based' ? 'selected' : '' %>>Need-Based</option>
+          <option value="AI Fellowship" <%= scholarship.category === 'AI Fellowship' ? 'selected' : '' %>>AI Fellowship</option>
+          <option value="Armed Forces" <%= scholarship.category === 'Armed Forces' ? 'selected' : '' %>>Armed Forces</option>
+          <option value="Special Talent" <%= scholarship.category === 'Special Talent' ? 'selected' : '' %>>Special Talent</option>
+          <option value="Other" <%= scholarship.category === 'Other' ? 'selected' : '' %>>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="schDesc">Description <span class="required">*</span></label>
+      <textarea id="schDesc" name="description" class="form-textarea" rows="3" required><%= scholarship.description || '' %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="schCriteria">Criteria Bullets (One per line)</label>
+      <textarea id="schCriteria" name="criteria" class="form-textarea" rows="3"><%= scholarship.criteria ? scholarship.criteria.join('\n') : '' %></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="minPcm">Minimum 12th PCM Score (%)</label>
+        <input type="number" id="minPcm" name="minPcm" class="form-control" step="0.1" value="<%= scholarship.eligibilityRules?.minPcm || 0 %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="incomeCeiling">Family Income Ceiling (INR ₹)</label>
+        <input type="number" id="incomeCeiling" name="familyIncomeCeiling" class="form-control" placeholder="e.g. 800000" value="<%= scholarship.eligibilityRules?.familyIncomeCeiling || 0 %>">
+      </div>
+    </div>
+
+    <div class="form-row" style="margin-top: 1rem;">
+      <div class="form-check">
+        <input type="checkbox" name="isWomenOnly" id="isWomenOnly" class="form-check-input" <%= scholarship.eligibilityRules?.isWomenOnly ? 'checked' : '' %>>
+        <label for="isWomenOnly" class="form-check-label">Women in Tech Reserved</label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" name="isNeedBased" id="isNeedBased" class="form-check-input" <%= scholarship.eligibilityRules?.isNeedBased ? 'checked' : '' %>>
+        <label for="isNeedBased" class="form-check-label">Need-Based Financial Check</label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" name="isActive" id="isActive" class="form-check-input" <%= scholarship.isActive !== false ? 'checked' : '' %>>
+        <label for="isActive" class="form-check-label">Active / Published</label>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+      <button type="submit" class="btn btn-primary"><%= isEdit ? 'Update Scholarship' : 'Create Scholarship' %> &rarr;</button>
+      <a href="/admin/scholarships" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

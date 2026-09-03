@@ -1,0 +1,129 @@
+<!-- KPI Summary Metrics -->
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-title">TOTAL APPLICATIONS</div>
+    <div class="kpi-value"><%= stats.totalApplications %></div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">IN REVIEW / ACTIVE</div>
+    <div class="kpi-value" style="color: var(--accent-blue);"><%= stats.underReviewApplications %></div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">OFFERED / ENROLLED</div>
+    <div class="kpi-value" style="color: var(--brand-emerald);"><%= stats.offeredApplications + stats.enrolledApplications %></div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">REGISTERED STUDENTS</div>
+    <div class="kpi-value"><%= stats.totalStudents %></div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">UNREAD INQUIRIES</div>
+    <div class="kpi-value" style="color: var(--brand-orange);"><%= stats.unreadEnquiries %></div>
+  </div>
+</div>
+
+<!-- Recent Applications Queue -->
+<div style="margin-bottom: 3rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h3 style="font-size: 1.25rem;">Recent Applications Queue</h3>
+    <a href="/admin/applications" class="btn btn-sm btn-secondary">View All Applications &rarr;</a>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>App ID</th>
+          <th>Candidate</th>
+          <th>Program</th>
+          <th>Campus</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (recentApplications && recentApplications.length > 0) { %>
+          <% recentApplications.forEach(app => { %>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700;"><%= app.applicationId %></td>
+              <td>
+                <strong><%= app.personalInfo ? app.personalInfo.fullName : 'Applicant' %></strong>
+                <div style="font-size: 0.75rem; color: var(--text-muted);"><%= app.personalInfo?.email %></div>
+              </td>
+              <td><%= app.preferences?.program ? app.preferences.program.name : 'N/A' %></td>
+              <td><%= app.preferences?.campus ? app.preferences.campus.city : 'N/A' %></td>
+              <td>
+                <span class="badge <%= app.status === 'OFFERED' || app.status === 'ENROLLED' ? 'badge-success' : (app.status === 'REJECTED' ? 'badge-warning' : 'badge-accent') %>">
+                  <%= app.status %>
+                </span>
+              </td>
+              <td style="font-size: 0.8125rem;"><%= formatDate(app.createdAt) %></td>
+              <td>
+                <a href="/admin/applications/<%= app._id %>" class="btn btn-sm btn-primary">Review &rarr;</a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No applications submitted yet.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Recent Inquiries -->
+<div>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h3 style="font-size: 1.25rem;">Recent Contact Inquiries</h3>
+    <a href="/admin/enquiries" class="btn btn-sm btn-secondary">View All Inquiries &rarr;</a>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Sender</th>
+          <th>Subject</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (recentEnquiries && recentEnquiries.length > 0) { %>
+          <% recentEnquiries.forEach(enq => { %>
+            <tr>
+              <td>
+                <strong><%= enq.name %></strong>
+                <div style="font-size: 0.75rem; color: var(--text-muted);"><%= enq.email %></div>
+              </td>
+              <td><%= enq.subject %></td>
+              <td style="font-family: var(--font-mono); font-size: 0.8125rem;"><%= enq.phone %></td>
+              <td>
+                <span class="badge <%= enq.status === 'NEW' ? 'badge-warning' : 'badge-subtle' %>">
+                  <%= enq.status %>
+                </span>
+              </td>
+              <td style="font-size: 0.8125rem;"><%= formatDate(enq.createdAt) %></td>
+              <td>
+                <a href="/admin/enquiries/<%= enq._id %>" class="btn btn-sm btn-secondary">View</a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">No inquiries received yet.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

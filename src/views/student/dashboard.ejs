@@ -1,0 +1,165 @@
+<div class="dashboard-header">
+  <div class="container">
+    <div class="dashboard-title-row">
+      <div class="dashboard-user-meta">
+        <div class="user-avatar-initials">
+          <%= student.name ? student.name.charAt(0).toUpperCase() : 'S' %>
+        </div>
+        <div>
+          <h1 style="font-size: 1.85rem; margin-bottom: 0.25rem;">Welcome, <%= student.name %></h1>
+          <div style="font-size: 0.875rem; color: var(--text-secondary);">
+            Student Applicant Portal • <%= student.email %>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <% if (application && application.applicationId) { %>
+          <div class="app-id-badge">
+            APP ID: <strong><%= application.applicationId %></strong>
+          </div>
+        <% } %>
+        <a href="/student/profile" class="btn btn-sm btn-secondary">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-sm">
+  <div class="container">
+    <!-- Next Action Banner -->
+    <div class="action-banner action-banner-<%= nextAction.statusType %>">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+          NEXT REQUIRED ACTION
+        </div>
+        <h3 style="font-size: 1.25rem; margin-bottom: 0.25rem;"><%= nextAction.title %></h3>
+        <p style="font-size: 0.875rem; opacity: 0.85;"><%= nextAction.description %></p>
+      </div>
+      <div>
+        <a href="<%= nextAction.buttonUrl %>" class="btn btn-primary"><%= nextAction.buttonText %> &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Application Progress Visual Tracker -->
+    <% if (application) { %>
+      <div class="timeline-tracker-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <div class="tracker-heading" style="margin-bottom: 0;">APPLICATION LIFECYCLE PROGRESS</div>
+          <span class="badge <%= application.status === 'OFFERED' || application.status === 'ENROLLED' ? 'badge-success' : 'badge-accent' %>">
+            Status: <%= application.status %>
+          </span>
+        </div>
+
+        <div class="tracker-steps">
+          <div class="tracker-step <%= progressStep >= 1 ? 'completed' : '' %> <%= progressStep === 1 ? 'active' : '' %>">
+            <div class="step-node">1</div>
+            <div class="step-label">Profile Draft</div>
+            <div class="step-status-sub"><%= progressStep >= 1 ? 'Done' : 'Pending' %></div>
+          </div>
+
+          <div class="tracker-step <%= progressStep >= 2 ? 'completed' : '' %> <%= progressStep === 2 ? 'active' : '' %>">
+            <div class="step-node">2</div>
+            <div class="step-label">Submitted</div>
+            <div class="step-status-sub"><%= progressStep >= 2 ? 'Received' : 'Pending' %></div>
+          </div>
+
+          <div class="tracker-step <%= progressStep >= 3 ? 'completed' : '' %> <%= progressStep === 3 ? 'active' : '' %>">
+            <div class="step-node">3</div>
+            <div class="step-label">Faculty Review</div>
+            <div class="step-status-sub"><%= progressStep >= 3 ? 'In Progress' : 'Pending' %></div>
+          </div>
+
+          <div class="tracker-step <%= progressStep >= 4 ? 'completed' : '' %> <%= progressStep === 4 ? 'active' : '' %>">
+            <div class="step-node">4</div>
+            <div class="step-label">Assessment</div>
+            <div class="step-status-sub"><%= progressStep >= 4 ? 'Active' : 'Pending' %></div>
+          </div>
+
+          <div class="tracker-step <%= progressStep >= 5 ? 'completed' : '' %> <%= progressStep === 5 ? 'active' : '' %>">
+            <div class="step-node">5</div>
+            <div class="step-label">Interview</div>
+            <div class="step-status-sub"><%= progressStep >= 5 ? 'Scheduled' : 'Pending' %></div>
+          </div>
+
+          <div class="tracker-step <%= progressStep >= 6 ? 'completed' : '' %> <%= progressStep === 6 ? 'active' : '' %>">
+            <div class="step-node">6</div>
+            <div class="step-label">Admission Offer</div>
+            <div class="step-status-sub"><%= progressStep >= 6 ? 'Granted' : 'Pending' %></div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.75rem; text-align: right;">
+          <a href="/student/application/status" style="font-size: 0.8125rem; color: var(--accent-blue); font-weight: 600;">
+            View Detailed History & Timeline Log &rarr;
+          </a>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Quick Stats Grid -->
+    <div class="grid grid-3" style="margin-bottom: 2.5rem;">
+      <div class="card" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">SELECTED PROGRAM</div>
+        <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">
+          <%= application && application.preferences && application.preferences.program ? application.preferences.program.name : 'No Program Selected' %>
+        </h4>
+        <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+          Campus: <%= application && application.preferences && application.preferences.campus ? application.preferences.campus.city : 'Not Chosen' %>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">SCHOLARSHIP STATUS</div>
+        <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">
+          <%= application && application.preferences && application.preferences.claimedScholarship ? application.preferences.claimedScholarship.name : (application && application.preferences && application.preferences.scholarshipOptIn ? 'Opted In for Evaluation' : 'Standard Tuition') %>
+        </h4>
+        <div style="font-size: 0.8125rem; color: var(--brand-emerald); font-weight: 600;">
+          <%= application && application.offerDetails && application.offerDetails.scholarshipGrantedPercentage ? `${application.offerDetails.scholarshipGrantedPercentage}% Granted` : 'Pending Verification' %>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">SAVED BOOKMARKS</div>
+        <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">
+          <%= (student.savedPrograms ? student.savedPrograms.length : 0) + (student.savedProjects ? student.savedProjects.length : 0) + (student.savedCampuses ? student.savedCampuses.length : 0) %> Items Saved
+        </h4>
+        <a href="/student/saved" style="font-size: 0.8125rem; color: var(--accent-blue); font-weight: 600;">View Saved Items &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Saved Fee Estimates Snapshot -->
+    <% if (savedCalculations && savedCalculations.length > 0) { %>
+      <div style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.35rem;">Saved Fee & Cost Estimates</h3>
+          <a href="/fees" class="btn btn-sm btn-secondary">New Fee Calculation &rarr;</a>
+        </div>
+
+        <div class="grid grid-3">
+          <% savedCalculations.forEach(calc => { %>
+            <div class="card" style="padding: 1.5rem;">
+              <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem;"><%= calc.program ? calc.program.name : 'B.Tech Degree' %></h4>
+              <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 1rem;"><%= calc.campus ? calc.campus.name : 'Campus' %></div>
+
+              <div class="calc-summary-box">
+                <div class="calc-row">
+                  <span style="color: var(--text-secondary);">4-Year Net Cost:</span>
+                  <strong><%= formatCurrency(calc.breakdown.netTotalEstimated) %></strong>
+                </div>
+                <div class="calc-row">
+                  <span style="color: var(--text-secondary);">Monthly EMI:</span>
+                  <strong style="color: var(--accent-blue);"><%= formatCurrency(calc.breakdown.monthlyFinancingEstimate) %>/mo</strong>
+                </div>
+              </div>
+
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                Calculated on <%= formatDate(calc.createdAt) %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>

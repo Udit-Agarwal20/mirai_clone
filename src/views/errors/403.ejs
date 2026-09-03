@@ -1,0 +1,13 @@
+<div class="section text-center" style="min-height: 70vh; display: flex; align-items: center;">
+  <div class="container" style="max-width: 600px;">
+    <div style="font-family: var(--font-mono); font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 1rem; color: var(--brand-rose);">403</div>
+    <h1 style="font-size: 2.25rem; margin-bottom: 1rem;">Access Restricted</h1>
+    <p class="lead" style="margin-bottom: 2rem;">
+      <%= typeof message !== 'undefined' ? message : 'You do not have permission to view this administrative resource.' %>
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="/" class="btn btn-primary">Return to Homepage &rarr;</a>
+      <a href="/auth/login" class="btn btn-secondary">Sign In as Administrator</a>
+    </div>
+  </div>
+</div>

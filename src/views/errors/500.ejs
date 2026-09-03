@@ -1,0 +1,18 @@
+<div class="section text-center" style="min-height: 70vh; display: flex; align-items: center;">
+  <div class="container" style="max-width: 600px;">
+    <div style="font-family: var(--font-mono); font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 1rem; color: var(--brand-orange);">500</div>
+    <h1 style="font-size: 2.25rem; margin-bottom: 1rem;">Internal Server Error</h1>
+    <p class="lead" style="margin-bottom: 2rem;">
+      An unexpected exception occurred while rendering this page. Our technical team has been notified.
+    </p>
+    <% if (typeof error !== 'undefined' && error && error.message) { %>
+      <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8125rem; text-align: left; margin-bottom: 2rem; overflow-x: auto;">
+        <%= error.message %>
+      </div>
+    <% } %>
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="/" class="btn btn-primary">Return to Homepage &rarr;</a>
+      <a href="/contact" class="btn btn-secondary">Report Issue</a>
+    </div>
+  </div>
+</div>

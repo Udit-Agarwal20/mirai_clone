@@ -1,0 +1,88 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Career Roadmap Generator</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">AI Career Path & Curriculum Generator</h1>
+    <p class="lead" style="max-width: 780px;">
+      Answer 6 questions about your passions, coding familiarity, and goals. Our deterministic decision engine synthesizes a personalized 4-year engineering blueprint.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container" style="max-width: 760px;">
+    <div class="card" style="padding: 3rem;">
+      <form action="/career-planner" method="POST" id="careerPlannerForm">
+        <!-- 1. Academic Score -->
+        <div class="form-group">
+          <label class="form-label">1. Your 12th Grade / PCM Percentage Score (%) <span class="required">*</span></label>
+          <input type="number" name="academicScore" class="form-control" placeholder="e.g. 88.5" step="0.1" min="50" max="100" required value="<%= formData.academicScore || '88.5' %>">
+          <div class="form-hint">Used to evaluate merit fellowships and recommended curriculum depth.</div>
+        </div>
+
+        <!-- 2. Primary Interest -->
+        <div class="form-group">
+          <label class="form-label">2. What technical domain excites you most? <span class="required">*</span></label>
+          <select name="primaryInterest" class="form-select">
+            <option value="ai_ml">Artificial Intelligence, LLMs, and Neural Architectures</option>
+            <option value="systems_core">Low-Level Systems, Operating Systems & Distributed Infrastructure</option>
+            <option value="robotics_hardware">Autonomous Robotics, Drones & Embodied AI</option>
+            <option value="fintech_startup">FinTech, High-Throughput Transaction Systems & Venture Building</option>
+          </select>
+        </div>
+
+        <!-- 3. Target Career Goal -->
+        <div class="form-group">
+          <label class="form-label">3. What is your ultimate 4-year career aspiration? <span class="required">*</span></label>
+          <select name="careerGoal" class="form-select">
+            <option value="ai_engineer">Staff AI / ML Systems Engineer at frontier tech firm</option>
+            <option value="fullstack_architect">Core Infrastructure / Distributed Systems Architect</option>
+            <option value="robotics_lead">Autonomous Perception & Robotics Software Engineer</option>
+            <option value="startup_founder">Founder / CTO building a venture-backed tech startup</option>
+          </select>
+        </div>
+
+        <!-- 4. Current Coding Level -->
+        <div class="form-group">
+          <label class="form-label">4. Your current programming experience <span class="required">*</span></label>
+          <select name="codingExperience" class="form-select">
+            <option value="none">Total Beginner (No prior coding experience)</option>
+            <option value="beginner" selected>Beginner (Know basic Python, C++, or JavaScript syntax)</option>
+            <option value="intermediate">Intermediate (Built full-stack web/app projects)</option>
+            <option value="advanced">Advanced (Competitive programmer or active open-source contributor)</option>
+          </select>
+        </div>
+
+        <!-- 5. Budget / Financial Need -->
+        <div class="form-group">
+          <label class="form-label">5. Educational Investment & Financial Planning</label>
+          <select name="budgetRange" class="form-select">
+            <option value="flexible">Flexible / Direct Self-Financing</option>
+            <option value="scholarship_dependent">Dependent on Merit / Need-Based Scholarships</option>
+            <option value="emi_plan">Prefer Low-Interest Monthly Education Loan (EMI)</option>
+          </select>
+        </div>
+
+        <!-- 6. Preferred Campus -->
+        <div class="form-group">
+          <label class="form-label">6. Preferred Innovation Campus</label>
+          <select name="preferredCampusCity" class="form-select">
+            <option value="Bengaluru">Bengaluru Innovation Campus (Silicon Valley of India)</option>
+            <option value="Hyderabad">Hyderabad AI Corridor (HITEC City)</option>
+            <option value="Pune">Pune Tech Valley (Embedded & Automotive Hub)</option>
+          </select>
+        </div>
+
+        <div class="form-check" style="margin-bottom: 2rem;">
+          <input type="checkbox" name="hostelNeeded" id="hostelNeeded" class="form-check-input" checked>
+          <label for="hostelNeeded" class="form-check-label">
+            Require on-campus student residence and meals
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-full">Generate My Personalized Roadmap &rarr;</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Registered Students Roster</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage registered student profiles and application statuses.</p>
+  </div>
+</div>
+
+<div class="card" style="padding: 1.25rem; margin-bottom: 2rem;">
+  <form action="/admin/students" method="GET" style="display: flex; gap: 1rem;">
+    <div style="flex: 1;">
+      <input type="text" name="search" class="form-control" placeholder="Search by student name, email, or phone..." value="<%= searchQuery %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <% if (searchQuery) { %>
+      <a href="/admin/students" class="btn btn-secondary">Reset</a>
+    <% } %>
+  </form>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Contact Details</th>
+        <th>City / State</th>
+        <th>12th PCM %</th>
+        <th>Application Status</th>
+        <th>Registered Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (students && students.length > 0) { %>
+        <% students.forEach(student => { %>
+          <% const app = appMap[student._id.toString()]; %>
+          <tr>
+            <td>
+              <strong><%= student.name %></strong>
+            </td>
+            <td>
+              <div><%= student.email %></div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= student.phone || 'No phone' %></div>
+            </td>
+            <td><%= student.profile?.city || 'N/A' %>, <%= student.profile?.state || '' %></td>
+            <td style="font-family: var(--font-mono);"><%= student.profile?.pcmPercentage ? `${student.profile.pcmPercentage}%` : 'N/A' %></td>
+            <td>
+              <% if (app) { %>
+                <a href="/admin/applications/<%= app._id %>">
+                  <span class="badge <%= app.status === 'OFFERED' || app.status === 'ENROLLED' ? 'badge-success' : 'badge-accent' %>">
+                    <%= app.applicationId %>: <%= app.status %>
+                  </span>
+                </a>
+              <% } else { %>
+                <span class="badge badge-subtle">No Application</span>
+              <% } %>
+            </td>
+            <td style="font-size: 0.8125rem;"><%= formatDate(student.createdAt) %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 3rem;">No students found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,151 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Admissions 2026</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Admissions 2026 Process & Deadlines</h1>
+    <p class="lead" style="max-width: 780px;">
+      A transparent, builder-friendly admissions pathway that values algorithmic thinking, creativity, and project drive.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <!-- Active Event Countdown Widget -->
+    <div style="margin-bottom: 4rem;">
+      <%- include('../partials/eventCountdown', { eventCountdown }) %>
+    </div>
+
+    <!-- Eligibility Criteria -->
+    <div style="margin-bottom: 4.5rem;">
+      <div class="section-header">
+        <div class="eyebrow">Academic Qualifications</div>
+        <h2>Eligibility Requirements</h2>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card" style="padding: 2rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.5rem;">CRITERION 01</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">12th Board Examinations</h3>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+            Minimum 70% aggregate in Physics, Mathematics, and Chemistry / Computer Science in CBSE, ICSE, State Boards, or IB/Cambridge equivalent.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 2rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.5rem;">CRITERION 02</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">NOVA Aptitude Challenge</h3>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+            All applicants participate in our online 60-minute practical logic and problem-solving evaluation (prior coding is helpful but not mandatory).
+          </p>
+        </div>
+
+        <div class="card" style="padding: 2rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.5rem;">CRITERION 03</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">Builder Alignment</h3>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+            Demonstrated passion for technology. Applicants with GitHub repositories, hardware prototypes, robotics builds, or math Olympiad ranks receive priority review.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Admission Events Timeline -->
+    <% if (events && events.length > 0) { %>
+      <div style="margin-bottom: 4.5rem;">
+        <div class="section-header">
+          <div class="eyebrow">Milestones & Schedule</div>
+          <h2>2026 Admissions Calendar</h2>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event / Milestone</th>
+                <th>Location / Scope</th>
+                <th>Date Window</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% events.forEach(item => { %>
+                <tr>
+                  <td>
+                    <strong><%= item.event.title %></strong>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;"><%= item.event.description %></div>
+                  </td>
+                  <td style="font-family: var(--font-mono); font-size: 0.8125rem;"><%= item.event.campusName %></td>
+                  <td style="font-family: var(--font-mono); font-size: 0.8125rem;">
+                    <%= formatDate(item.event.startDate) %> &rarr; <%= formatDate(item.event.endDate) %>
+                  </td>
+                  <td>
+                    <span class="badge <%= item.status === 'CLOSED' ? 'badge-subtle' : (item.status === 'TODAY' ? 'badge-warning' : 'badge-success') %>">
+                      <%= item.status %>
+                    </span>
+                  </td>
+                  <td>
+                    <a href="<%= item.event.actionUrl || '/student/application' %>" class="btn btn-sm btn-secondary">
+                      <%= item.event.actionText || 'View' %>
+                    </a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Admissions FAQs -->
+    <div style="margin-bottom: 4.5rem;">
+      <div class="section-header">
+        <div class="eyebrow">Got Questions?</div>
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="grid grid-2" style="gap: 1.5rem;">
+        <div class="card" style="padding: 1.75rem;">
+          <h4 style="margin-bottom: 0.5rem;">Is prior coding experience required to get admitted?</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+            No. While demonstrable projects on GitHub are a strong plus, our aptitude assessment evaluates first-principles logical reasoning and learnability. Year 1 starts with foundational systems programming for all tracks.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 1.75rem;">
+          <h4 style="margin-bottom: 0.5rem;">Are the B.Tech degrees formally accredited?</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+            Yes. All 4-year undergraduate degrees awarded by NOVA Institute of Technology comply with statutory national higher education frameworks and qualify students for global master's programs and corporate visas.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 1.75rem;">
+          <h4 style="margin-bottom: 0.5rem;">How does the 6-month industry co-op work?</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+            In Year 3, students work full-time in paid engineering positions at partner firms (Google, Stripe, high-growth startups). Stipends typically range from ₹60,000 to ₹1,50,000 per month.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 1.75rem;">
+          <h4 style="margin-bottom: 0.5rem;">Can I transfer between campuses?</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+            Yes. Subject to seat availability and academic performance, students can request semester exchanges between Bengaluru, Hyderabad, and Pune.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ready to apply banner -->
+    <div class="card text-center" style="background-color: var(--bg-dark); color: #ffffff; padding: 4rem 2rem;">
+      <h2 style="color: #ffffff; margin-bottom: 1rem;">Begin Your Admission Application</h2>
+      <p style="color: var(--text-inverse-muted); max-width: 600px; margin: 0 auto 2rem;">
+        Takes 10 minutes to submit your basic details and reserve your assessment window.
+      </p>
+      <a href="/student/application" class="btn btn-primary btn-lg" style="background-color: #ffffff; color: #000000; border-color: #ffffff;">
+        Start 2026 Application &rarr;
+      </a>
+    </div>
+  </div>
+</div>

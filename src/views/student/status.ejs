@@ -1,0 +1,142 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/student/dashboard">Dashboard</a> / <span style="color: var(--text-primary);">Application Status Tracker</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 2.25rem; margin-bottom: 0.25rem;">Application <%= application.applicationId %></h1>
+        <p style="font-size: 0.9375rem; color: var(--text-secondary);">
+          Submitted by <%= student.name %> on <%= application.submittedAt ? formatDate(application.submittedAt) : 'Draft Saved' %>
+        </p>
+      </div>
+      <span class="badge <%= isRejected ? 'badge-warning' : (application.status === 'OFFERED' || application.status === 'ENROLLED' ? 'badge-success' : 'badge-accent') %>" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+        STATUS: <%= application.status %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container" style="max-width: 900px;">
+    <!-- Visual Stage Progress Tracker -->
+    <div class="timeline-tracker-card" style="margin-bottom: 3rem;">
+      <div class="tracker-heading">STAGE PROGRESSION PIPELINE</div>
+
+      <div class="tracker-steps">
+        <% stages.forEach((stage, idx) => { %>
+          <% const isCompleted = currentStageIndex >= (idx + 1); %>
+          <% const isActive = currentStageIndex === (idx + 1); %>
+          <div class="tracker-step <%= isCompleted ? 'completed' : '' %> <%= isActive ? 'active' : '' %>">
+            <div class="step-node"><%= idx + 1 %></div>
+            <div class="step-label"><%= stage.label %></div>
+            <div class="step-status-sub"><%= isCompleted ? 'Completed' : (isActive ? 'Current' : 'Upcoming') %></div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- Reviewer & Scheduled Stage Info Cards -->
+    <% if (application.status === 'ASSESSMENT' && application.assessmentDetails) { %>
+      <div class="card" style="padding: 2rem; background-color: #eff6ff; border-color: #bfdbfe; margin-bottom: 2.5rem;">
+        <div class="eyebrow" style="color: #1e40af;">ACTION REQUIRED</div>
+        <h3 style="color: #1e3a8a; margin-bottom: 0.5rem;">NOVA Technical Aptitude & Logic Assessment</h3>
+        <p style="font-size: 0.9375rem; color: #1e40af; line-height: 1.6; margin-bottom: 1rem;">
+          Your practical algorithmic logic assessment has been scheduled. Please ensure you have a quiet environment and a laptop with modern browser for the 60-minute duration.
+        </p>
+        <div style="font-family: var(--font-mono); font-size: 0.875rem; color: #1e40af;">
+          Status: <strong><%= application.assessmentDetails.status || 'Active' %></strong>
+        </div>
+      </div>
+    <% } %>
+
+    <% if (application.status === 'INTERVIEW' && application.interviewDetails) { %>
+      <div class="card" style="padding: 2rem; background-color: #eff6ff; border-color: #bfdbfe; margin-bottom: 2.5rem;">
+        <div class="eyebrow" style="color: #1e40af;">STAGE 3 SCHEDULED</div>
+        <h3 style="color: #1e3a8a; margin-bottom: 0.5rem;">Faculty 1-on-1 Interview</h3>
+        <p style="font-size: 0.9375rem; color: #1e40af; line-height: 1.6; margin-bottom: 1rem;">
+          Your 1-on-1 interview is scheduled with a senior engineering mentor. You will discuss your project aspirations and software background.
+        </p>
+        <% if (application.interviewDetails.meetingLink) { %>
+          <a href="<%= application.interviewDetails.meetingLink %>" target="_blank" class="btn btn-primary btn-sm">Join Video Meeting ↗</a>
+        <% } %>
+      </div>
+    <% } %>
+
+    <% if (application.status === 'OFFERED') { %>
+      <div class="card" style="padding: 2rem; background-color: #ecfdf5; border-color: #a7f3d0; margin-bottom: 2.5rem;">
+        <div class="eyebrow" style="color: #065f46;">ADMISSION OFFER GRANTED</div>
+        <h3 style="color: #065f46; margin-bottom: 0.5rem;">Congratulations! You have been accepted to NOVA</h3>
+        <p style="font-size: 0.9375rem; color: #065f46; line-height: 1.6; margin-bottom: 1rem;">
+          The admissions committee has approved your admission for <strong><%= application.preferences?.program?.name %></strong> at the <strong><%= application.preferences?.campus?.name %></strong>.
+          <% if (application.offerDetails?.scholarshipGrantedPercentage) { %>
+            You have also been awarded a <strong><%= application.offerDetails.scholarshipGrantedPercentage %>% Tuition Scholarship</strong>!
+          <% } %>
+        </p>
+        <a href="/fees" class="btn btn-primary btn-sm" style="background-color: #065f46; border-color: #065f46;">Review Enrollment & Fees &rarr;</a>
+      </div>
+    <% } %>
+
+    <!-- Application Summary Grid -->
+    <div class="grid grid-2" style="gap: 2rem; margin-bottom: 3rem;">
+      <div class="card" style="padding: 2rem;">
+        <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Program & Campus Details</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.875rem; font-size: 0.875rem;">
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">PRIMARY PROGRAM</span>
+            <strong style="color: var(--text-primary);"><%= application.preferences?.program?.name %></strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">CAMPUS</span>
+            <strong><%= application.preferences?.campus?.name %> (<%= application.preferences?.campus?.city %>)</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">CAMPUS RESIDENCE</span>
+            <strong><%= application.preferences?.hostelRequired ? 'Hostel Room Requested' : 'Day Scholar' %></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 2rem;">
+        <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Submitted Academic Records</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.875rem; font-size: 0.875rem;">
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">12TH BOARD & PCM</span>
+            <strong><%= application.academicInfo?.board %> — <%= application.academicInfo?.pcmPercentage %>%</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">ENTRANCE EXAM</span>
+            <strong><%= application.academicInfo?.entranceExam || 'JEE Main' %>: <%= application.academicInfo?.entranceScore || 'Submitted' %></strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">PORTFOLIO</span>
+            <% if (application.academicInfo?.githubUrl) { %>
+              <a href="<%= application.academicInfo.githubUrl %>" target="_blank" style="color: var(--accent-blue); text-decoration: underline;"><%= application.academicInfo.githubUrl %> ↗</a>
+            <% } else { %>
+              <span>None provided</span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit Timeline History -->
+    <div class="card" style="padding: 2.5rem;">
+      <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem;">Application Activity History</h3>
+
+      <div class="timeline-log">
+        <% if (application.timeline && application.timeline.length > 0) { %>
+          <% application.timeline.slice().reverse().forEach(log => { %>
+            <div class="log-item">
+              <div class="log-stage"><%= log.stage %></div>
+              <div class="log-time"><%= formatDate(log.timestamp) %> • By <%= log.updatedBy %></div>
+              <div class="log-note"><%= log.note %></div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div style="font-size: 0.875rem; color: var(--text-muted);">No activity recorded yet.</div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

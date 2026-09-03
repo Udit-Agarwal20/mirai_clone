@@ -1,0 +1,49 @@
+<% if (typeof eventCountdown !== 'undefined' && eventCountdown && eventCountdown.event) { %>
+  <div class="countdown-widget" data-countdown-target="<%= eventCountdown.isoEndDate %>">
+    <div>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <span class="badge <%= eventCountdown.status === 'CLOSED' ? 'badge-warning' : (eventCountdown.status === 'TODAY' ? 'badge-warning' : 'badge-accent') %>" data-countdown-status>
+          <%= eventCountdown.status %>
+        </span>
+        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-inverse-muted);">
+          <%= eventCountdown.event.campusName %>
+        </span>
+      </div>
+
+      <h3 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 0.5rem;">
+        <%= eventCountdown.event.title %>
+      </h3>
+      <p style="color: var(--text-inverse-muted); font-size: 0.875rem; line-height: 1.5; margin-bottom: 1.25rem;">
+        <%= eventCountdown.event.description || 'Target deadline for seat reservations and merit scholarship evaluations.' %>
+      </p>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <a href="<%= eventCountdown.event.actionUrl || '/admissions' %>" class="btn btn-sm btn-primary" style="background-color: #ffffff; color: #000000; border-color: #ffffff;">
+          <%= eventCountdown.event.actionText || 'Apply Now' %> &rarr;
+        </a>
+        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-inverse-muted);">
+          Ends <%= eventCountdown.formattedDeadline %>
+        </span>
+      </div>
+    </div>
+
+    <div class="countdown-digits-grid">
+      <div class="countdown-box">
+        <div class="countdown-val" data-unit="days"><%= String(eventCountdown.remaining.days).padStart(2, '0') %></div>
+        <div class="countdown-unit">Days</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-val" data-unit="hours"><%= String(eventCountdown.remaining.hours).padStart(2, '0') %></div>
+        <div class="countdown-unit">Hours</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-val" data-unit="minutes"><%= String(eventCountdown.remaining.minutes).padStart(2, '0') %></div>
+        <div class="countdown-unit">Mins</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-val" data-unit="seconds"><%= String(eventCountdown.remaining.seconds).padStart(2, '0') %></div>
+        <div class="countdown-unit">Secs</div>
+      </div>
+    </div>
+  </div>
+<% } %>

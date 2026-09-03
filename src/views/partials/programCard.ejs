@@ -1,0 +1,35 @@
+<div class="program-card">
+  <div class="program-meta">
+    <span class="badge badge-accent"><%= program.badge || 'B.Tech Degree' %></span>
+    <span class="text-mono" style="font-size: 0.8125rem; color: var(--text-muted);"><%= program.duration %></span>
+  </div>
+
+  <h3 class="program-title">
+    <a href="/programs/<%= program.slug %>"><%= program.name %></a>
+  </h3>
+
+  <p class="program-desc"><%= program.shortDescription %></p>
+
+  <div class="skills-cloud">
+    <% if (program.skills && program.skills.length > 0) { %>
+      <% program.skills.slice(0, 4).forEach(skill => { %>
+        <span class="pill-tag"><%= skill %></span>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <div class="program-footer">
+    <div>
+      <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">ANNUAL TUITION</div>
+      <div class="program-fee"><%= formatCurrency(program.fees.tuitionPerYear) %>/yr</div>
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <% if (isAuthenticated && isStudent) { %>
+        <button type="button" class="btn btn-sm btn-secondary" data-bookmark-btn data-item-type="program" data-item-id="<%= program._id %>">
+          ★ Save
+        </button>
+      <% } %>
+      <a href="/programs/<%= program.slug %>" class="btn btn-sm btn-primary">View Details &rarr;</a>
+    </div>
+  </div>
+</div>

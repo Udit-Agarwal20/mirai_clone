@@ -1,0 +1,48 @@
+<header class="site-header">
+  <div class="container nav-container">
+    <a href="/" class="brand-logo" aria-label="NOVA Institute of Technology Home">
+      <span class="brand-mark">N</span>
+      <div>
+        <span>NOVA</span>
+        <span class="brand-sub">INSTITUTE OF TECH</span>
+      </div>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary Navigation">
+      <a href="/programs" class="nav-link <%= currentPath.startsWith('/programs') ? 'active' : '' %>">Programs</a>
+      <a href="/curriculum" class="nav-link <%= currentPath === '/curriculum' ? 'active' : '' %>">Curriculum</a>
+      <a href="/campuses" class="nav-link <%= currentPath.startsWith('/campuses') ? 'active' : '' %>">Campuses</a>
+      <a href="/projects" class="nav-link <%= currentPath.startsWith('/projects') ? 'active' : '' %>">Projects</a>
+      <a href="/mentors" class="nav-link <%= currentPath.startsWith('/mentors') ? 'active' : '' %>">Mentors</a>
+      <a href="/scholarships" class="nav-link <%= currentPath.startsWith('/scholarships') ? 'active' : '' %>">Scholarships</a>
+      <a href="/fees" class="nav-link <%= currentPath.startsWith('/fees') ? 'active' : '' %>">Fee Planner</a>
+      <a href="/career-planner" class="nav-link <%= currentPath.startsWith('/career-planner') ? 'active' : '' %>">Career Match</a>
+      <a href="/admissions" class="nav-link <%= currentPath === '/admissions' ? 'active' : '' %>">Admissions</a>
+    </nav>
+
+    <div class="nav-actions">
+      <% if (isAuthenticated) { %>
+        <% if (isAdmin) { %>
+          <a href="/admin" class="btn btn-sm btn-primary">Admin Control</a>
+        <% } else { %>
+          <a href="/student/dashboard" class="btn btn-sm btn-secondary">Dashboard</a>
+          <a href="/student/application" class="btn btn-sm btn-primary">Application</a>
+        <% } %>
+        <form action="/auth/logout" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-sm btn-outline-white" style="color: var(--text-secondary); border-color: var(--border-medium);">Sign Out</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/login" class="btn btn-sm btn-secondary">Sign In</a>
+        <a href="/student/application" class="btn btn-sm btn-primary">Apply 2026</a>
+      <% } %>
+
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>

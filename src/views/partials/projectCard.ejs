@@ -1,0 +1,42 @@
+<div class="project-card">
+  <img src="<%= project.thumbnail || 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80' %>" alt="<%= project.title %>" class="project-thumbnail" loading="lazy">
+  
+  <div class="project-body">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+      <span class="project-category"><%= project.category %></span>
+      <span class="pill-tag" style="font-size: 0.7rem;">Year <%= project.year %> Build</span>
+    </div>
+
+    <h3 class="project-title">
+      <a href="/projects/<%= project.slug %>"><%= project.title %></a>
+    </h3>
+
+    <p class="project-tagline"><%= project.tagline || project.description.substring(0, 110) + '...' %></p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.25rem;">
+      <% if (project.technology && project.technology.length > 0) { %>
+        <% project.technology.slice(0, 3).forEach(tech => { %>
+          <span class="pill-tag" style="font-size: 0.7rem; background-color: var(--bg-canvas);"><%= tech %></span>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <div class="project-footer">
+      <div style="font-size: 0.75rem; color: var(--text-muted);">
+        <% if (project.stats && project.stats.highlight) { %>
+          <strong style="color: var(--brand-emerald);"><%= project.stats.highlight %></strong>
+        <% } else if (project.students && project.students.length > 0) { %>
+          <span>By <%= project.students[0].name %></span>
+        <% } %>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <% if (isAuthenticated && isStudent) { %>
+          <button type="button" class="btn btn-sm btn-secondary" style="padding: 0.3rem 0.5rem;" data-bookmark-btn data-item-type="project" data-item-id="<%= project._id %>" title="Save Project">
+            ★
+          </button>
+        <% } %>
+        <a href="/projects/<%= project.slug %>" class="btn btn-sm btn-secondary">Read Study &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>

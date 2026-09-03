@@ -1,0 +1,31 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Innovation Campuses</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Innovation Campuses</h1>
+    <p class="lead" style="max-width: 700px;">
+      State-of-the-art facilities located directly within India’s premier technology corridors: Bengaluru, Hyderabad, and Pune.
+    </p>
+
+    <!-- City Filter -->
+    <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: wrap;">
+      <a href="/campuses" class="pill-tag <%= selectedCity === 'all' ? 'active' : '' %>" style="padding: 0.5rem 1rem; <%= selectedCity === 'all' ? 'background-color: #000; color: #fff;' : '' %>">All Campuses</a>
+      <a href="/campuses?city=Bengaluru" class="pill-tag <%= selectedCity === 'Bengaluru' ? 'active' : '' %>" style="padding: 0.5rem 1rem; <%= selectedCity === 'Bengaluru' ? 'background-color: #000; color: #fff;' : '' %>">Bengaluru</a>
+      <a href="/campuses?city=Hyderabad" class="pill-tag <%= selectedCity === 'Hyderabad' ? 'active' : '' %>" style="padding: 0.5rem 1rem; <%= selectedCity === 'Hyderabad' ? 'background-color: #000; color: #fff;' : '' %>">Hyderabad</a>
+      <a href="/campuses?city=Pune" class="pill-tag <%= selectedCity === 'Pune' ? 'active' : '' %>" style="padding: 0.5rem 1rem; <%= selectedCity === 'Pune' ? 'background-color: #000; color: #fff;' : '' %>">Pune</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="grid grid-3">
+      <% if (campuses && campuses.length > 0) { %>
+        <% campuses.forEach(campus => { %>
+          <%- include('../partials/campusCard', { campus }) %>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="section" style="min-height: 75vh; display: flex; align-items: center;">
+  <div class="container" style="max-width: 520px;">
+    <div class="card" style="padding: 2.5rem;">
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <div class="brand-mark" style="margin: 0 auto 1rem; width: 44px; height: 44px; font-size: 1.25rem;">N</div>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.5rem;">Create Student Account</h1>
+        <p style="font-size: 0.875rem; color: var(--text-secondary);">
+          Start your 2026 admissions application and track your progress.
+        </p>
+      </div>
+
+      <form action="/auth/register" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="regName">Full Legal Name <span class="required">*</span></label>
+          <input type="text" id="regName" name="name" class="form-control" placeholder="e.g. Alex Rivers" required value="<%= formData.name || '' %>">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address <span class="required">*</span></label>
+            <input type="email" id="regEmail" name="email" class="form-control" placeholder="name@example.com" required value="<%= formData.email || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPhone">Mobile Number</label>
+            <input type="tel" id="regPhone" name="phone" class="form-control" placeholder="+91 98765 43210" value="<%= formData.phone || '' %>">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Password <span class="required">*</span></label>
+            <input type="password" id="regPassword" name="password" class="form-control" placeholder="Min. 6 characters" minlength="6" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regConfirm">Confirm Password <span class="required">*</span></label>
+            <input type="password" id="regConfirm" name="confirmPassword" class="form-control" placeholder="Re-type password" minlength="6" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: 0.5rem;">Create Account &rarr;</button>
+      </form>
+
+      <div style="margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border-light); font-size: 0.875rem; text-align: center; color: var(--text-secondary);">
+        Already registered? <a href="/auth/login" style="color: var(--accent-blue); font-weight: 600;">Sign In &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>

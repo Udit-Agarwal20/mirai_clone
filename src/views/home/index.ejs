@@ -1,0 +1,441 @@
+<!-- ==========================================================================
+     NOVA INSTITUTE OF TECHNOLOGY — HOMEPAGE
+     ========================================================================== -->
+
+<!-- 1. HERO SECTION -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">
+          <span>●</span> 2026 INTAKE APPLICATIONS OPEN
+        </div>
+        
+        <h1 class="hero-headline">
+          <span>BUILD WHAT</span>
+          <span>COMES NEXT.</span>
+        </h1>
+
+        <p class="hero-lead">
+          An engineering education designed around AI, real products and real-world experience. Graduate with an accredited degree <strong>AND</strong> a verified portfolio of things you actually shipped.
+        </p>
+
+        <div class="hero-actions">
+          <a href="/career-planner" class="btn btn-primary btn-lg">Build My Career Plan &rarr;</a>
+          <a href="/programs" class="btn btn-secondary btn-lg">Explore Programs</a>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-secondary);">
+          <div>✓ No rote exams</div>
+          <div>✓ Shipped code from Day 1</div>
+          <div>✓ 6-month paid co-ops</div>
+        </div>
+      </div>
+
+      <!-- Live Terminal Simulation Preview -->
+      <div class="hero-terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+          </div>
+          <div>nova-kernel@student-node-01: ~</div>
+          <div>BASH</div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-code">git clone https://github.com/nova-institute/core-engine</span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-code">cargo build --release --features=cuda,distributed</span>
+          </div>
+          <div class="terminal-line" style="color: var(--text-inverse-muted);">
+            <span>Compiling nova-core v2.4.0 (14 crates in 1.84s)...</span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-code">./target/release/nova-node --cluster=bengaluru-gpu-01</span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-highlight">[OK] Raft Consensus initialized with 5 GPU nodes.</span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-highlight">[OK] Model serving 42,000 tokens/sec across student cluster.</span>
+          </div>
+          <div class="terminal-line" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); color: #9ca3af;">
+            <span>&gt; "Students don't just learn syntax. They build production systems."</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. TRUST / DATA-DRIVEN STATISTICS -->
+<section class="stats-banner">
+  <div class="container">
+    <div class="stats-grid">
+      <% if (stats && stats.statsList) { %>
+        <% stats.statsList.forEach(item => { %>
+          <div class="stat-item">
+            <div class="stat-number"><%= item.value %></div>
+            <div class="stat-label"><%= item.label %></div>
+            <div class="stat-subtext">Verified database records</div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- 3. WHAT MAKES NOVA DIFFERENT -->
+<section class="section">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="eyebrow">Institutional Architecture</div>
+      <h2>Engineered for the Modern Tech Era</h2>
+      <p class="lead">Traditional university curriculums are 15 years behind industry realities. NOVA replaces obsolete textbook exams with product sprints, GPU infrastructure, and real venture funding.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="pillar-card">
+        <div class="pillar-num">01</div>
+        <h3 class="pillar-title">Build From Day One</h3>
+        <p class="pillar-desc">
+          No waiting until Year 4 for a minor capstone. You write memory-safe code, deploy web apps, and design databases from your very first week on campus.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-num">02</div>
+        <h3 class="pillar-title">AI & Systems First</h3>
+        <p class="pillar-desc">
+          Transformers, CUDA kernel optimization, distributed consensus, and autonomous robotics are core fundamentals, not optional electives.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-num">03</div>
+        <h3 class="pillar-title">Industry Co-Op & Residency</h3>
+        <p class="pillar-desc">
+          Mandatory 6-month full-time paid engineering co-op at partner tech firms, startups, or AI labs with competitive monthly stipends.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-num">04</div>
+        <h3 class="pillar-title">Silicon Valley Mentors</h3>
+        <p class="pillar-desc">
+          Weekly code reviews and architecture teardowns with Staff Engineers and Researchers from Google DeepMind, OpenAI, NVIDIA, and Stripe.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-num">05</div>
+        <h3 class="pillar-title">Institutional Seed Grants</h3>
+        <p class="pillar-desc">
+          The NOVA Venture Lab provides up to ₹10 Lakhs pre-seed capital, legal structure, and investor introductions for student-founded startups.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-num">06</div>
+        <h3 class="pillar-title">Portfolio Over Transcripts</h3>
+        <p class="pillar-desc">
+          You graduate with an accredited B.Tech degree AND a verifiable public GitHub portfolio containing production code with real users.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ACADEMIC PROGRAMS -->
+<section class="section section-subtle">
+  <div class="container">
+    <div class="flex-between" style="margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div class="eyebrow">Academic Offerings</div>
+        <h2>B.Tech Degree Programs</h2>
+      </div>
+      <a href="/programs" class="btn btn-secondary">View All Programs &rarr;</a>
+    </div>
+
+    <div class="grid grid-2">
+      <% if (programs && programs.length > 0) { %>
+        <% programs.forEach(program => { %>
+          <%- include('../partials/programCard', { program }) %>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- 5. BUILD-FROM-DAY-ONE PHILOSOPHY COMPARISON -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="eyebrow">Pedagogical Comparison</div>
+      <h2>Traditional Engineering College vs. NOVA</h2>
+      <p class="lead">Why our graduates ship products while traditional students struggle to pass entry-level coding interviews.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card card-dark" style="background-color: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1);">
+        <h3 style="color: #ef4444; font-size: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>✕</span> Traditional Engineering College
+        </h3>
+        <ul style="display: flex; flex-direction: column; gap: 1rem; color: var(--text-inverse-muted); font-size: 0.9375rem;">
+          <li>• 4 years of rote theory with hand-written exam papers</li>
+          <li>• Outdated 2005 syllabus teaching legacy Java/C++ on Turbo C</li>
+          <li>• Capstone project purchased or copied in the final semester</li>
+          <li>• Zero real production deployment or cloud experience</li>
+          <li>• Mass IT recruitment training for low-tier service roles</li>
+        </ul>
+      </div>
+
+      <div class="card card-dark" style="background-color: rgba(37,99,235,0.06); border-color: rgba(37,99,235,0.3);">
+        <h3 style="color: #60a5fa; font-size: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>✓</span> NOVA Institute of Technology
+        </h3>
+        <ul style="display: flex; flex-direction: column; gap: 1rem; color: #ffffff; font-size: 0.9375rem;">
+          <li>• Shipped production applications and open source tools every term</li>
+          <li>• Modern tech: Rust, PyTorch, Transformers, CUDA, Go, TypeScript</li>
+          <li>• Real 24/7 dedicated GPU clusters and robotics hardware bays</li>
+          <li>• 6-month full-time paid co-op with top AI labs & unicorns</li>
+          <li>• Graduate as an elite systems engineer, AI researcher, or founder</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. STUDENT PROJECT SHOWCASE -->
+<section class="section">
+  <div class="container">
+    <div class="flex-between" style="margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div class="eyebrow">Shipped Portfolios</div>
+        <h2>What Our Students Build</h2>
+      </div>
+      <a href="/projects" class="btn btn-secondary">Explore All 15+ Projects &rarr;</a>
+    </div>
+
+    <div class="grid grid-4">
+      <% if (featuredProjects && featuredProjects.length > 0) { %>
+        <% featuredProjects.forEach(project => { %>
+          <%- include('../partials/projectCard', { project }) %>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- 7. 4-YEAR JOURNEY -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="eyebrow">Progression Architecture</div>
+      <h2>The 4-Year Journey from Novice to Shipmaster</h2>
+      <p class="lead">Every single academic year has a concrete engineering milestone that produces a tangible artifact.</p>
+    </div>
+
+    <div class="journey-container">
+      <div class="journey-card">
+        <div class="journey-year-tag">Year 01</div>
+        <h3 class="journey-title">Foundations & First Products</h3>
+        <p class="journey-focus">
+          Low-level systems in C/Rust, data structures from scratch, modern web fundamentals, and deploying your first production application.
+        </p>
+        <div class="journey-deliverables">
+          <strong>YEAR 1 ARTIFACT</strong>
+          Custom Redis-compatible key-value store and live web utility with active users.
+        </div>
+      </div>
+
+      <div class="journey-card">
+        <div class="journey-year-tag">Year 02</div>
+        <h3 class="journey-title">AI & Deep Systems</h3>
+        <p class="journey-focus">
+          Neural networks from first principles, transformer architectures, GPU programming with CUDA, and distributed consensus (Raft).
+        </p>
+        <div class="journey-deliverables">
+          <strong>YEAR 2 ARTIFACT</strong>
+          Autonomous multi-agent LLM workflow or robotics SLAM rover.
+        </div>
+      </div>
+
+      <div class="journey-card">
+        <div class="journey-year-tag">Year 03</div>
+        <h3 class="journey-title">Industry Co-Op & Residency</h3>
+        <p class="journey-focus">
+          6-month full-time paid engineering residency at top tech firms, tier-1 open-source code contributions, and advanced MLOps.
+        </p>
+        <div class="journey-deliverables">
+          <strong>YEAR 3 ARTIFACT</strong>
+          Enterprise RAG pipeline and paid industry co-op experience.
+        </div>
+      </div>
+
+      <div class="journey-card">
+        <div class="journey-year-tag">Year 04</div>
+        <h3 class="journey-title">Venture / Placement Capstone</h3>
+        <p class="journey-focus">
+          Commercial product launch through NOVA Venture Labs with seed funding OR elite tier-1 engineering placement pipeline.
+        </p>
+        <div class="journey-deliverables">
+          <strong>YEAR 4 ARTIFACT</strong>
+          Funded tech startup, research paper, or tier-1 offer.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. MENTORS DIRECTORY PREVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="flex-between" style="margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div class="eyebrow">Industry Faculty</div>
+        <h2>Mentorship From the Frontier of Tech</h2>
+      </div>
+      <a href="/mentors" class="btn btn-secondary">Meet All Mentors &rarr;</a>
+    </div>
+
+    <div class="grid grid-3">
+      <% if (mentors && mentors.length > 0) { %>
+        <% mentors.forEach(mentor => { %>
+          <%- include('../partials/mentorCard', { mentor }) %>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- 9. CAMPUS SHOWCASE -->
+<section class="section section-subtle">
+  <div class="container">
+    <div class="flex-between" style="margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div class="eyebrow">Innovation Hubs</div>
+        <h2>State-of-the-Art Campuses</h2>
+      </div>
+      <a href="/campuses" class="btn btn-secondary">Explore All Campuses &rarr;</a>
+    </div>
+
+    <div class="grid grid-3">
+      <% if (campuses && campuses.length > 0) { %>
+        <% campuses.forEach(campus => { %>
+          <%- include('../partials/campusCard', { campus }) %>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- 10. SCHOLARSHIP HIGHLIGHT -->
+<section class="section">
+  <div class="container">
+    <div class="card" style="background-color: var(--bg-dark); color: #ffffff; border-color: var(--border-dark); padding: 3.5rem;">
+      <div class="grid grid-2" style="align-items: center; gap: 3rem;">
+        <div>
+          <div class="eyebrow" style="color: #60a5fa;">Financial Merit & Aid</div>
+          <h2 style="color: #ffffff; margin-bottom: 1rem;">Up to 100% Merit Scholarships</h2>
+          <p style="color: var(--text-inverse-muted); font-size: 1.0625rem; line-height: 1.6; margin-bottom: 2rem;">
+            We believe extraordinary engineering potential should never be limited by financial constraints. NOVA provides generous merit fellowships, Women in Tech grants, and need-based fee waivers.
+          </p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="/scholarships" class="btn btn-primary" style="background-color: #ffffff; color: #000000; border-color: #ffffff;">Check Eligibility &rarr;</a>
+            <a href="/fees" class="btn btn-outline-white">Calculate Total Cost</a>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: var(--radius-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: #ffffff;">Founders Merit Fellowship</strong>
+              <span class="badge badge-accent">100% Waiver</span>
+            </div>
+            <div style="font-size: 0.8125rem; color: var(--text-inverse-muted);">For top 5% academic scorers & algorithmic test achievers.</div>
+          </div>
+
+          <div style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: var(--radius-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: #ffffff;">Ada Lovelace Women in Tech Grant</strong>
+              <span class="badge badge-accent">50% Waiver</span>
+            </div>
+            <div style="font-size: 0.8125rem; color: var(--text-inverse-muted);">Championing exceptional female computer science engineers.</div>
+          </div>
+
+          <div style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: var(--radius-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: #ffffff;">Need-Based Support Fellowship</strong>
+              <span class="badge badge-accent">Up to 75%</span>
+            </div>
+            <div style="font-size: 0.8125rem; color: var(--text-inverse-muted);">Direct tuition reduction for low-income household scholars.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. ADMISSIONS TIMELINE & DEADLINE COUNTDOWN -->
+<section class="section section-subtle">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="eyebrow">Admissions 2026</div>
+      <h2>Simple, Transparent 4-Stage Admissions</h2>
+      <p class="lead">We look for intellectual curiosity, problem-solving agility, and passion for building technology.</p>
+    </div>
+
+    <!-- Dynamic Event Countdown Widget -->
+    <div style="margin-bottom: 3.5rem;">
+      <%- include('../partials/eventCountdown', { eventCountdown }) %>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="card text-center" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; color: var(--text-muted); margin-bottom: 0.75rem;">STAGE 01</div>
+        <h4 style="margin-bottom: 0.5rem;">Online Application</h4>
+        <p style="font-size: 0.8125rem; color: var(--text-secondary);">Submit personal background, 12th board scores, and optional GitHub portfolio.</p>
+      </div>
+
+      <div class="card text-center" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; color: var(--text-muted); margin-bottom: 0.75rem;">STAGE 02</div>
+        <h4 style="margin-bottom: 0.5rem;">Logic & Aptitude Test</h4>
+        <p style="font-size: 0.8125rem; color: var(--text-secondary);">60-minute practical algorithmic thinking challenge. No memorization needed.</p>
+      </div>
+
+      <div class="card text-center" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; color: var(--text-muted); margin-bottom: 0.75rem;">STAGE 03</div>
+        <h4 style="margin-bottom: 0.5rem;">Mentor 1-on-1 Review</h4>
+        <p style="font-size: 0.8125rem; color: var(--text-secondary);">Conversational video interview with a NOVA engineering mentor or founder.</p>
+      </div>
+
+      <div class="card text-center" style="padding: 1.75rem;">
+        <div style="font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; color: var(--text-muted); margin-bottom: 0.75rem;">STAGE 04</div>
+        <h4 style="margin-bottom: 0.5rem;">Seat & Fellowship Grant</h4>
+        <p style="font-size: 0.8125rem; color: var(--text-secondary);">Formal admission offer letter and confirmed scholarship allocation issued.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. FINAL CALL TO ACTION -->
+<section class="section text-center" style="padding: 6rem 0;">
+  <div class="container" style="max-width: 800px;">
+    <h2 style="font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1.25rem;">Ready to build what comes next?</h2>
+    <p class="lead" style="margin-bottom: 2.5rem;">
+      Join a community of ambitious software engineers, robotics builders, and startup founders. Priority admissions close soon.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="/student/application" class="btn btn-primary btn-lg">Start Admission Application &rarr;</a>
+      <a href="/career-planner" class="btn btn-secondary btn-lg">Generate My Career Roadmap</a>
+    </div>
+  </div>
+</section>

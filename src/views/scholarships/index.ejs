@@ -1,0 +1,150 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Scholarships & Aid</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Scholarships & Fellowships</h1>
+    <p class="lead" style="max-width: 780px;">
+      Up to 100% tuition waivers for top academic achievers, women in technology, defense wards, and verified open-source contributors.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="grid grid-2-1" style="gap: 3.5rem; align-items: start;">
+      <div>
+        <!-- Available Scholarships Grid -->
+        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Scholarship Programs</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3.5rem;">
+          <% if (scholarships && scholarships.length > 0) { %>
+            <% scholarships.forEach(sch => { %>
+              <div class="card" style="padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <span class="badge badge-accent"><%= sch.badge || `${sch.percentage}% Tuition Waiver` %></span>
+                  <span class="pill-tag"><%= sch.category %></span>
+                </div>
+
+                <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem;"><%= sch.name %></h3>
+                <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.25rem;">
+                  <%= sch.description %>
+                </p>
+
+                <% if (sch.criteria && sch.criteria.length > 0) { %>
+                  <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">ELIGIBILITY CRITERIA</div>
+                    <ul style="font-size: 0.8125rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.35rem;">
+                      <% sch.criteria.forEach(crit => { %>
+                        <li>• <%= crit %></li>
+                      <% }) %>
+                    </ul>
+                  </div>
+                <% } %>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+                  <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--brand-emerald); font-weight: 700;">
+                    <%= sch.percentage %>% Tuition Reduction
+                  </div>
+                  <a href="/fees?scholarshipId=<%= sch._id %>" class="btn btn-sm btn-secondary">Apply to Fee Plan &rarr;</a>
+                </div>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Scholarship Eligibility Calculator Widget -->
+      <aside>
+        <div class="card" style="position: sticky; top: 6rem; padding: 2rem; background-color: var(--bg-surface); border: 2px solid #000000;" id="scholarshipCalculatorCard">
+          <div class="eyebrow" style="margin-bottom: 0.25rem;">Automated Estimator</div>
+          <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem;">Scholarship Calculator</h3>
+          <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Enter your academic and personal background to find eligible fee waivers.
+          </p>
+
+          <form action="/scholarships/calculate" method="POST" id="scholarshipForm">
+            <div class="form-group">
+              <label class="form-label">12th Grade / PCM Percentage (%)</label>
+              <input type="number" name="pcmPercentage" class="form-control" placeholder="e.g. 92.5" step="0.1" min="0" max="100" required value="<%= formData.pcmPercentage || '' %>">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <select name="gender" class="form-select">
+                <option value="Male" <%= formData.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= formData.gender === 'Female' ? 'selected' : '' %>>Female (Women in Tech)</option>
+                <option value="Other" <%= formData.gender === 'Other' ? 'selected' : '' %>>Non-Binary / Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Annual Family Income (INR ₹)</label>
+              <select name="familyAnnualIncome" class="form-select">
+                <option value="1500000" <%= formData.familyAnnualIncome === '1500000' ? 'selected' : '' %>>Above ₹12 Lakhs</option>
+                <option value="900000" <%= formData.familyAnnualIncome === '900000' ? 'selected' : '' %>>₹8 Lakhs – ₹12 Lakhs</option>
+                <option value="600000" <%= formData.familyAnnualIncome === '600000' ? 'selected' : '' %>>Below ₹8 Lakhs (Need-Based Eligible)</option>
+              </select>
+            </div>
+
+            <div class="form-check" style="margin-bottom: 0.75rem;">
+              <input type="checkbox" name="isDefenseWard" id="isDefenseWard" class="form-check-input" <%= formData.isDefenseWard ? 'checked' : '' %>>
+              <label for="isDefenseWard" class="form-check-label" style="font-size: 0.8125rem;">Ward of Armed Forces / Paramilitary</label>
+            </div>
+
+            <div class="form-check" style="margin-bottom: 1.5rem;">
+              <input type="checkbox" name="hasCodingPortfolio" id="hasCodingPortfolio" class="form-check-input" <%= formData.hasCodingPortfolio ? 'checked' : '' %>>
+              <label for="hasCodingPortfolio" class="form-check-label" style="font-size: 0.8125rem;">Have Active GitHub / Project Portfolio</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Calculate Eligibility &rarr;</button>
+          </form>
+
+          <!-- Result Display Container -->
+          <% if (calculationResult) { %>
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid var(--border-light);" id="calcResultsBox">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span class="badge badge-success">Evaluation Result</span>
+                <span style="font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700; color: var(--brand-emerald);">
+                  <%= calculationResult.maxDiscountPercentage %>% Max Waiver
+                </span>
+              </div>
+
+              <% if (calculationResult.bestMatch) { %>
+                <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                  <strong style="font-size: 0.9375rem; color: var(--text-primary); display: block; margin-bottom: 0.25rem;">
+                    ★ Best Match: <%= calculationResult.bestMatch.name %>
+                  </strong>
+                  <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+                    You qualify for <%= calculationResult.bestMatch.percentage %>% tuition waiver.
+                  </div>
+                </div>
+              <% } else { %>
+                <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.8125rem; color: var(--text-secondary);">
+                  No standard automatic waiver matched. You can still apply for general admissions and appear for the NOVA Aptitude Challenge for custom fellowship consideration.
+                </div>
+              <% } %>
+
+              <% if (calculationResult.eligibleScholarships && calculationResult.eligibleScholarships.length > 0) { %>
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">
+                  QUALIFYING SCHOLARSHIPS (<%= calculationResult.eligibleCount %>)
+                </div>
+                <ul style="font-size: 0.8125rem; color: var(--brand-emerald); display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.25rem;">
+                  <% calculationResult.eligibleScholarships.forEach(item => { %>
+                    <li>✓ <%= item.scholarship.name %> (<%= item.percentage %>%)</li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+              <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1.25rem;">
+                * <em><%= calculationResult.disclaimer %></em>
+              </div>
+
+              <a href="/fees" class="btn btn-secondary btn-full btn-sm">Take to Fee Planner &rarr;</a>
+            </div>
+          <% } %>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>

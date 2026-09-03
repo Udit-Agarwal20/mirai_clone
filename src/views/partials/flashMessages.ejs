@@ -1,0 +1,20 @@
+<% if (typeof success_msg !== 'undefined' && success_msg && success_msg.length > 0) { %>
+  <div class="alert alert-success" role="alert">
+    <span><%= success_msg %></span>
+    <button type="button" class="alert-close" aria-label="Close message">&times;</button>
+  </div>
+<% } %>
+
+<% if (typeof error_msg !== 'undefined' && error_msg && error_msg.length > 0) { %>
+  <div class="alert alert-danger" role="alert">
+    <span><%= error_msg %></span>
+    <button type="button" class="alert-close" aria-label="Close message">&times;</button>
+  </div>
+<% } %>
+
+<% if (typeof info_msg !== 'undefined' && info_msg && info_msg.length > 0) { %>
+  <div class="alert alert-info" role="alert">
+    <span><%= info_msg %></span>
+    <button type="button" class="alert-close" aria-label="Close message">&times;</button>
+  </div>
+<% } %>

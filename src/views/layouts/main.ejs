@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'NOVA Institute of Technology | Build First. Learn Deeply.' %></title>
+  <meta name="description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : 'An engineering education designed around AI, real products and real-world experience. Graduate with a degree AND a portfolio of things you actually built.' %>">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'NOVA Institute of Technology' %>">
+  <meta property="og:description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : 'An engineering education designed around AI, real products and real-world experience.' %>">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20y=%220%22 width=%22100%22 height=%22100%22><text y=%22.9em%22 font-size=%2290%22>⬡</text></svg>">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <%- style %>
+</head>
+<body>
+  <!-- Dynamic Announcement Bar -->
+  <%- include('../partials/announcementBar') %>
+
+  <!-- Main Site Header & Navigation -->
+  <%- include('../partials/header') %>
+
+  <!-- Global Flash Notifications -->
+  <div class="container">
+    <%- include('../partials/flashMessages') %>
+  </div>
+
+  <!-- Page Body Content -->
+  <main id="main-content">
+    <%- body %>
+  </main>
+
+  <!-- Site Footer -->
+  <%- include('../partials/footer') %>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-nav-header">
+      <div class="brand-logo">
+        <span class="brand-mark">N</span>
+        <div>NOVA <span class="brand-sub">INSTITUTE</span></div>
+      </div>
+      <button class="alert-close" id="mobileNavClose" aria-label="Close Navigation">&times;</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="/programs">Academic Programs</a>
+      <a href="/curriculum">4-Year Curriculum</a>
+      <a href="/campuses">Campuses</a>
+      <a href="/projects">Student Projects</a>
+      <a href="/mentors">Faculty & Mentors</a>
+      <a href="/scholarships">Scholarships</a>
+      <a href="/fees">Cost & Fee Planner</a>
+      <a href="/career-planner">Career Roadmap</a>
+      <a href="/admissions">Admissions 2026</a>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="mobile-nav-actions" style="margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem;">
+      <% if (isAuthenticated) { %>
+        <% if (isAdmin) { %>
+          <a href="/admin" class="btn btn-primary btn-full">Admin Portal</a>
+        <% } else { %>
+          <a href="/student/dashboard" class="btn btn-primary btn-full">My Dashboard</a>
+        <% } %>
+        <form action="/auth/logout" method="POST">
+          <button type="submit" class="btn btn-secondary btn-full">Sign Out</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/login" class="btn btn-secondary btn-full">Sign In</a>
+        <a href="/student/application" class="btn btn-primary btn-full">Apply Now</a>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Client-Side Scripts -->
+  <script src="/js/main.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/savedItems.js"></script>
+  <%- script %>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<% if (typeof activeAnnouncement !== 'undefined' && activeAnnouncement) { %>
+  <div class="announcement-bar">
+    <span class="announcement-badge"><%= activeAnnouncement.badge || 'UPDATE' %></span>
+    <span><%= activeAnnouncement.message %></span>
+    <% if (activeAnnouncement.link) { %>
+      <a href="<%= activeAnnouncement.link %>" class="announcement-link"><%= activeAnnouncement.linkText || 'Learn more' %> &rarr;</a>
+    <% } %>
+  </div>
+<% } %>

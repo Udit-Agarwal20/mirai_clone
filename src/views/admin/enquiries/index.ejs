@@ -1,0 +1,53 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Contact & Admissions Inquiries</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Review questions submitted via public contact form.</p>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Sender</th>
+        <th>Subject</th>
+        <th>Phone</th>
+        <th>Program / Campus</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (enquiries && enquiries.length > 0) { %>
+        <% enquiries.forEach(enq => { %>
+          <tr>
+            <td>
+              <strong><%= enq.name %></strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= enq.email %></div>
+            </td>
+            <td><%= enq.subject %></td>
+            <td style="font-family: var(--font-mono); font-size: 0.8125rem;"><%= enq.phone %></td>
+            <td style="font-size: 0.8125rem;">
+              <%= enq.programInterest ? enq.programInterest.name : 'General' %><br>
+              <span style="color: var(--text-muted);"><%= enq.campusInterest ? enq.campusInterest.city : '' %></span>
+            </td>
+            <td>
+              <span class="badge <%= enq.status === 'NEW' ? 'badge-warning' : (enq.status === 'RESOLVED' ? 'badge-success' : 'badge-subtle') %>">
+                <%= enq.status %>
+              </span>
+            </td>
+            <td style="font-size: 0.8125rem;"><%= formatDate(enq.createdAt) %></td>
+            <td>
+              <a href="/admin/enquiries/<%= enq._id %>" class="btn btn-sm btn-secondary">View Details &rarr;</a>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 3rem;">No inquiries found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

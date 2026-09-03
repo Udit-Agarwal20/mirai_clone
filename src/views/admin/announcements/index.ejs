@@ -1,0 +1,58 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Top Announcements Management</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage global header notification bars shown to public visitors.</p>
+  </div>
+  <a href="/admin/announcements/new" class="btn btn-primary">+ Create Announcement</a>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Badge</th>
+        <th>Announcement Message</th>
+        <th>Link</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (announcements && announcements.length > 0) { %>
+        <% announcements.forEach(ann => { %>
+          <tr>
+            <td>
+              <span class="badge badge-accent"><%= ann.badge %></span>
+            </td>
+            <td>
+              <strong><%= ann.title %></strong>
+              <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.2rem;"><%= ann.message %></div>
+            </td>
+            <td>
+              <a href="<%= ann.link %>" target="_blank" style="color: var(--accent-blue);"><%= ann.linkText || 'Link' %> ↗</a>
+            </td>
+            <td><%= ann.priority %></td>
+            <td>
+              <span class="badge <%= ann.isActive ? 'badge-success' : 'badge-subtle' %>">
+                <%= ann.isActive ? 'Active' : 'Disabled' %>
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="/admin/announcements/<%= ann._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <form action="/admin/announcements/<%= ann._id %>/delete" method="POST" onsubmit="return confirm('Delete this announcement?');" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 3rem;">No announcements created.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

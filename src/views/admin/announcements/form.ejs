@@ -1,0 +1,54 @@
+<div style="margin-bottom: 2rem;">
+  <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+    <a href="/admin/announcements">Announcements</a> / <span style="color: var(--text-primary);"><%= isEdit ? `Edit: ${announcement.title}` : 'New Announcement' %></span>
+  </div>
+  <h2 style="font-size: 1.75rem;"><%= isEdit ? `Edit Announcement: ${announcement.title}` : 'Create Top Banner Announcement' %></h2>
+</div>
+
+<div class="card" style="padding: 2.5rem; max-width: 860px;">
+  <form action="<%= isEdit ? `/admin/announcements/${announcement._id}` : '/admin/announcements' %>" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="annTitle">Internal Title <span class="required">*</span></label>
+        <input type="text" id="annTitle" name="title" class="form-control" placeholder="e.g. Admissions 2026 Priority Window" required value="<%= announcement.title || '' %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="badge">Badge Label</label>
+        <input type="text" id="badge" name="badge" class="form-control" placeholder="ADMISSIONS 2026" value="<%= announcement.badge || 'ADMISSIONS 2026' %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="message">Banner Message Text <span class="required">*</span></label>
+      <input type="text" id="message" name="message" class="form-control" placeholder="Applications for the 2026 Fall intake are now open..." required value="<%= announcement.message || '' %>">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="link">Link Target URL</label>
+        <input type="text" id="link" name="link" class="form-control" placeholder="/admissions" value="<%= announcement.link || '/admissions' %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="linkText">Link Label</label>
+        <input type="text" id="linkText" name="linkText" class="form-control" placeholder="Apply Now" value="<%= announcement.linkText || 'Apply Now' %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="priority">Priority (Higher numbers take precedence)</label>
+        <input type="number" id="priority" name="priority" class="form-control" value="<%= announcement.priority || 1 %>">
+      </div>
+    </div>
+
+    <div class="form-check" style="margin-top: 1rem;">
+      <input type="checkbox" name="isActive" id="isActive" class="form-check-input" <%= announcement.isActive !== false ? 'checked' : '' %>>
+      <label for="isActive" class="form-check-label">Active / Display on Homepage</label>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+      <button type="submit" class="btn btn-primary"><%= isEdit ? 'Update Announcement' : 'Publish Announcement' %> &rarr;</button>
+      <a href="/admin/announcements" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

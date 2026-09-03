@@ -1,0 +1,228 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/student/dashboard">Dashboard</a> / <span style="color: var(--text-primary);">Admission Application</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 2.25rem; margin-bottom: 0.25rem;">Undergraduate Admission Application</h1>
+        <p style="font-size: 0.9375rem; color: var(--text-secondary);">Fall 2026 Intake • Form ID: <%= application.applicationId || 'New Draft' %></p>
+      </div>
+      <% if (application.status) { %>
+        <span class="badge <%= application.status === 'DRAFT' ? 'badge-warning' : 'badge-success' %>">
+          Status: <%= application.status %>
+        </span>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container" style="max-width: 860px;">
+    <form action="/student/application" method="POST" id="admissionAppForm">
+      <!-- Section 1: Personal Details -->
+      <div class="card" style="padding: 2.5rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light);">
+          1. Personal Information
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fullName">Full Name <span class="required">*</span></label>
+            <input type="text" id="fullName" name="fullName" class="form-control" required value="<%= application.personalInfo?.fullName || student.name || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" required value="<%= application.personalInfo?.email || student.email || '' %>">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="phone">Mobile Phone <span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" class="form-control" required value="<%= application.personalInfo?.phone || student.phone || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" class="form-control" value="<%= application.personalInfo?.dob ? new Date(application.personalInfo.dob).toISOString().split('T')[0] : (student.profile?.dob ? new Date(student.profile.dob).toISOString().split('T')[0] : '') %>">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Gender</label>
+            <select name="gender" class="form-select">
+              <option value="">-- Select --</option>
+              <option value="Male" <%= (application.personalInfo?.gender || student.profile?.gender) === 'Male' ? 'selected' : '' %>>Male</option>
+              <option value="Female" <%= (application.personalInfo?.gender || student.profile?.gender) === 'Female' ? 'selected' : '' %>>Female</option>
+              <option value="Non-Binary" <%= (application.personalInfo?.gender || student.profile?.gender) === 'Non-Binary' ? 'selected' : '' %>>Non-Binary / Other</option>
+              <option value="Prefer not to say" <%= (application.personalInfo?.gender || student.profile?.gender) === 'Prefer not to say' ? 'selected' : '' %>>Prefer not to say</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="guardianName">Guardian / Parent Name</label>
+            <input type="text" id="guardianName" name="guardianName" class="form-control" value="<%= application.personalInfo?.guardianName || '' %>">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="address">Residential Address</label>
+          <input type="text" id="address" name="address" class="form-control" placeholder="Street address, apartment" value="<%= application.personalInfo?.address || student.profile?.address || '' %>">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="city">City</label>
+            <input type="text" id="city" name="city" class="form-control" value="<%= application.personalInfo?.city || student.profile?.city || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="state">State</label>
+            <input type="text" id="state" name="state" class="form-control" value="<%= application.personalInfo?.state || student.profile?.state || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pincode">Pincode</label>
+            <input type="text" id="pincode" name="pincode" class="form-control" value="<%= application.personalInfo?.pincode || student.profile?.pincode || '' %>">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Academic Qualifications -->
+      <div class="card" style="padding: 2.5rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light);">
+          2. Academic Records & Background
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="highSchool">12th Grade High School Name</label>
+            <input type="text" id="highSchool" name="highSchool" class="form-control" placeholder="e.g. National Public School" value="<%= application.academicInfo?.highSchool || student.profile?.highSchool || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Education Board</label>
+            <select name="board" class="form-select">
+              <option value="CBSE" <%= (application.academicInfo?.board || student.profile?.board) === 'CBSE' ? 'selected' : '' %>>CBSE</option>
+              <option value="ICSE" <%= (application.academicInfo?.board || student.profile?.board) === 'ICSE' ? 'selected' : '' %>>ICSE / ISC</option>
+              <option value="State Board" <%= (application.academicInfo?.board || student.profile?.board) === 'State Board' ? 'selected' : '' %>>State Board</option>
+              <option value="IB / Cambridge" <%= (application.academicInfo?.board || student.profile?.board) === 'IB / Cambridge' ? 'selected' : '' %>>IB / Cambridge A-Levels</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="pcmPercentage">PCM Aggregate Percentage (%) <span class="required">*</span></label>
+            <input type="number" id="pcmPercentage" name="pcmPercentage" class="form-control" step="0.1" min="0" max="100" required value="<%= application.academicInfo?.pcmPercentage || student.profile?.pcmPercentage || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="entranceScore">JEE Main / State CET Score or Percentile</label>
+            <input type="text" id="entranceScore" name="entranceScore" class="form-control" placeholder="e.g. 98.4 Percentile" value="<%= application.academicInfo?.entranceScore || student.profile?.entranceScore || '' %>">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="githubUrl">GitHub Profile / Project Portfolio URL</label>
+            <input type="url" id="githubUrl" name="githubUrl" class="form-control" placeholder="https://github.com/username" value="<%= application.academicInfo?.githubUrl || '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Coding Experience Level</label>
+            <select name="codingExperience" class="form-select">
+              <option value="None" <%= application.academicInfo?.codingExperience === 'None' ? 'selected' : '' %>>None</option>
+              <option value="Beginner (Basic Python/JS)" <%= application.academicInfo?.codingExperience === 'Beginner (Basic Python/JS)' ? 'selected' : '' %>>Beginner (Basic Python/JS)</option>
+              <option value="Intermediate (Built projects)" <%= application.academicInfo?.codingExperience === 'Intermediate (Built projects)' ? 'selected' : '' %>>Intermediate (Built projects)</option>
+              <option value="Advanced (Competitive / Open Source)" <%= application.academicInfo?.codingExperience === 'Advanced (Competitive / Open Source)' ? 'selected' : '' %>>Advanced (Competitive / Open Source)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Program & Campus Preferences -->
+      <div class="card" style="padding: 2.5rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light);">
+          3. Program & Campus Selection
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Primary Program Choice <span class="required">*</span></label>
+            <select name="programId" class="form-select" required>
+              <% programs.forEach(p => { %>
+                <option value="<%= p._id %>" <%= application.preferences?.program?.toString() === p._id.toString() || application.preferences?.program?._id?.toString() === p._id.toString() ? 'selected' : '' %>>
+                  <%= p.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Campus Preference <span class="required">*</span></label>
+            <select name="campusId" class="form-select" required>
+              <% campuses.forEach(c => { %>
+                <option value="<%= c._id %>" <%= application.preferences?.campus?.toString() === c._id.toString() || application.preferences?.campus?._id?.toString() === c._id.toString() ? 'selected' : '' %>>
+                  <%= c.name %> (<%= c.city %>)
+                </option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-check" style="margin-top: 0.5rem; margin-bottom: 1rem;">
+          <input type="checkbox" name="hostelRequired" id="hostelRequired" class="form-check-input" <%= application.preferences?.hostelRequired !== false ? 'checked' : '' %>>
+          <label for="hostelRequired" class="form-check-label">
+            Require campus hostel accommodation & food service
+          </label>
+        </div>
+
+        <div class="form-check" style="margin-bottom: 1.5rem;">
+          <input type="checkbox" name="scholarshipOptIn" id="scholarshipOptIn" class="form-check-input" <%= application.preferences?.scholarshipOptIn ? 'checked' : '' %>>
+          <label for="scholarshipOptIn" class="form-check-label">
+            Opt-in for Merit / Need-Based Scholarship Consideration
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Target Scholarship (Optional)</label>
+          <select name="scholarshipId" class="form-select">
+            <option value="none">-- Select Scholarship to Claim --</option>
+            <% scholarships.forEach(s => { %>
+              <option value="<%= s._id %>" <%= application.preferences?.claimedScholarship?.toString() === s._id.toString() || application.preferences?.claimedScholarship?._id?.toString() === s._id.toString() ? 'selected' : '' %>>
+                <%= s.name %> (<%= s.percentage %>% Waiver)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section 4: Statement of Purpose -->
+      <div class="card" style="padding: 2.5rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light);">
+          4. Statement of Purpose & Career Goal
+        </h3>
+
+        <div class="form-group">
+          <label class="form-label" for="statementOfPurpose">Why do you want to study at NOVA instead of a traditional college?</label>
+          <textarea id="statementOfPurpose" name="statementOfPurpose" class="form-textarea" rows="4" placeholder="Tell us about what you have built or what you are curious to build..."><%= application.statementOfPurpose || '' %></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="careerGoal">What is your 4-year career objective?</label>
+          <input type="text" id="careerGoal" name="careerGoal" class="form-control" placeholder="e.g. Lead AI Systems Engineer at frontier tech firm, or found a funded robotics company" value="<%= application.careerGoal || '' %>">
+        </div>
+      </div>
+
+      <!-- Submission Actions -->
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; flex-wrap: wrap;">
+        <button type="submit" name="isDraft" value="true" class="btn btn-secondary btn-lg">Save as Draft</button>
+        <button type="submit" name="isDraft" value="false" class="btn btn-primary btn-lg">Submit Application &rarr;</button>
+      </div>
+    </form>
+  </div>
+</div>

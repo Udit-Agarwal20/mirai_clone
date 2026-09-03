@@ -1,0 +1,101 @@
+<div style="margin-bottom: 2rem;">
+  <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+    <a href="/admin/programs">Programs</a> / <span style="color: var(--text-primary);"><%= isEdit ? `Edit: ${program.name}` : 'New Program' %></span>
+  </div>
+  <h2 style="font-size: 1.75rem;"><%= isEdit ? `Edit Program: ${program.name}` : 'Create Academic Program' %></h2>
+</div>
+
+<div class="card" style="padding: 2.5rem; max-width: 860px;">
+  <form action="<%= isEdit ? `/admin/programs/${program._id}` : '/admin/programs' %>" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="progName">Program Name <span class="required">*</span></label>
+        <input type="text" id="progName" name="name" class="form-control" placeholder="e.g. B.Tech Computer Science & AI" required value="<%= program.name || '' %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="progSlug">URL Slug</label>
+        <input type="text" id="progSlug" name="slug" class="form-control" placeholder="e.g. btech-cse-ai" value="<%= program.slug || '' %>">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="progDegree">Degree Type</label>
+        <input type="text" id="progDegree" name="degree" class="form-control" placeholder="B.Tech" value="<%= program.degree || 'B.Tech' %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="progDuration">Duration</label>
+        <input type="text" id="progDuration" name="duration" class="form-control" placeholder="4 Years (8 Semesters)" value="<%= program.duration || '4 Years (8 Semesters)' %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="progShort">Short Description <span class="required">*</span></label>
+      <input type="text" id="progShort" name="shortDescription" class="form-control" required value="<%= program.shortDescription || '' %>">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="progFull">Full Curriculum Description <span class="required">*</span></label>
+      <textarea id="progFull" name="description" class="form-textarea" rows="4" required><%= program.description || '' %></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="tuition">Annual Tuition Fee (INR ₹) <span class="required">*</span></label>
+        <input type="number" id="tuition" name="tuitionPerYear" class="form-control" required value="<%= program.fees?.tuitionPerYear || 300000 %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="labFee">Annual Lab Compute Fee (INR ₹)</label>
+        <input type="number" id="labFee" name="labFeePerYear" class="form-control" value="<%= program.fees?.labFeePerYear || 40000 %>">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="oneTime">One-Time Registration (INR ₹)</label>
+        <input type="number" id="oneTime" name="oneTimeAdmissionFee" class="form-control" value="<%= program.fees?.oneTimeAdmissionFee || 50000 %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="progSkills">Key Technical Skills (Comma-separated)</label>
+      <input type="text" id="progSkills" name="skills" class="form-control" placeholder="Rust, PyTorch, CUDA, Transformers, Distributed Systems" value="<%= program.skills ? program.skills.join(', ') : '' %>">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="progWho">Who Should Choose This (One per line)</label>
+      <textarea id="progWho" name="whoShouldChoose" class="form-textarea" rows="3"><%= program.whoShouldChoose ? program.whoShouldChoose.join('\n') : '' %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Available Campuses</label>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        <% campuses.forEach(c => { %>
+          <% const isChecked = program.campuses && program.campuses.some(id => id.toString() === c._id.toString() || id._id?.toString() === c._id.toString()); %>
+          <div class="form-check" style="margin-bottom: 0;">
+            <input type="checkbox" name="campuses" value="<%= c._id %>" id="camp_<%= c._id %>" class="form-check-input" <%= isChecked ? 'checked' : '' %>>
+            <label for="camp_<%= c._id %>" class="form-check-label"><%= c.name %> (<%= c.city %>)</label>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="form-row" style="margin-top: 1rem;">
+      <div class="form-check">
+        <input type="checkbox" name="isActive" id="isActive" class="form-check-input" <%= program.isActive !== false ? 'checked' : '' %>>
+        <label for="isActive" class="form-check-label">Active / Published</label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" name="featured" id="featured" class="form-check-input" <%= program.featured ? 'checked' : '' %>>
+        <label for="featured" class="form-check-label">Featured on Homepage</label>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+      <button type="submit" class="btn btn-primary"><%= isEdit ? 'Update Program' : 'Create Program' %> &rarr;</button>
+      <a href="/admin/programs" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

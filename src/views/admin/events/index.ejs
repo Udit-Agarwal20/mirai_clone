@@ -1,0 +1,58 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Admissions Events & Deadlines Management</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage dynamic deadline countdowns, hackathons, and open houses.</p>
+  </div>
+  <a href="/admin/events/new" class="btn btn-primary">+ Create Admission Event</a>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Event Title</th>
+        <th>Type</th>
+        <th>Location</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Active</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (events && events.length > 0) { %>
+        <% events.forEach(event => { %>
+          <tr>
+            <td>
+              <strong><%= event.title %></strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= event.description %></div>
+            </td>
+            <td>
+              <span class="badge badge-accent"><%= event.type %></span>
+            </td>
+            <td><%= event.campusName %></td>
+            <td style="font-size: 0.8125rem;"><%= formatDate(event.startDate) %></td>
+            <td style="font-size: 0.8125rem;"><%= formatDate(event.endDate) %></td>
+            <td>
+              <span class="badge <%= event.isActive ? 'badge-success' : 'badge-subtle' %>">
+                <%= event.isActive ? 'Active' : 'Disabled' %>
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="/admin/events/<%= event._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <form action="/admin/events/<%= event._id %>/delete" method="POST" onsubmit="return confirm('Delete this event?');" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 3rem;">No admission events configured.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

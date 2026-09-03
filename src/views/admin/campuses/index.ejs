@@ -1,0 +1,52 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Campuses Management</h2>
+    <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage physical tech campuses, locations, and hostel settings.</p>
+  </div>
+  <a href="/admin/campuses/new" class="btn btn-primary">+ Add New Campus</a>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Campus Name</th>
+        <th>City / State</th>
+        <th>Annual Hostel Base</th>
+        <th>Seats</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (campuses && campuses.length > 0) { %>
+        <% campuses.forEach(campus => { %>
+          <tr>
+            <td>
+              <strong><%= campus.name %></strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><%= campus.slug %></div>
+            </td>
+            <td><%= campus.city %>, <%= campus.state %></td>
+            <td style="font-family: var(--font-mono);"><%= formatCurrency(campus.annualHostelFeeDefault) %>/yr</td>
+            <td><%= campus.availableSeats %> seats</td>
+            <td>
+              <span class="badge badge-success"><%= campus.status %></span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="/admin/campuses/<%= campus._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <form action="/admin/campuses/<%= campus._id %>/delete" method="POST" onsubmit="return confirm('Delete this campus?');" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 3rem;">No campuses found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

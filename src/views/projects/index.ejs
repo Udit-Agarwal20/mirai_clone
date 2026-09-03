@@ -1,0 +1,62 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Student Projects</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Student Project Showcase</h1>
+    <p class="lead" style="max-width: 780px;">
+      Explore real systems, open-source libraries, robotics hardware, and venture-funded startups built and shipped by NOVA students.
+    </p>
+
+    <!-- Search and Category Filters -->
+    <form action="/projects" method="GET" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 260px;">
+        <input type="text" name="search" class="form-control" placeholder="Search by project name, tech stack, or problem..." value="<%= searchQuery %>">
+      </div>
+
+      <div style="width: 200px;">
+        <select name="category" class="form-select" onchange="this.form.submit()">
+          <option value="all" <%= currentCategory === 'all' ? 'selected' : '' %>>All Categories</option>
+          <% categories.forEach(cat => { %>
+            <% if (cat !== 'ALL') { %>
+              <option value="<%= cat.toLowerCase().replace(' ', '-') %>" <%= currentCategory.toLowerCase() === cat.toLowerCase().replace(' ', '-') ? 'selected' : '' %>><%= cat %></option>
+            <% } %>
+          <% }) %>
+        </select>
+      </div>
+
+      <div style="width: 160px;">
+        <select name="year" class="form-select" onchange="this.form.submit()">
+          <option value="all" <%= currentYear === 'all' ? 'selected' : '' %>>All Years</option>
+          <option value="1" <%= currentYear === '1' ? 'selected' : '' %>>Year 1</option>
+          <option value="2" <%= currentYear === '2' ? 'selected' : '' %>>Year 2</option>
+          <option value="3" <%= currentYear === '3' ? 'selected' : '' %>>Year 3</option>
+          <option value="4" <%= currentYear === '4' ? 'selected' : '' %>>Year 4</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Filter</button>
+      <% if (searchQuery || currentCategory !== 'all' || currentYear !== 'all') { %>
+        <a href="/projects" class="btn btn-secondary">Reset</a>
+      <% } %>
+    </form>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <% if (projects && projects.length > 0) { %>
+      <div class="grid grid-3">
+        <% projects.forEach(project => { %>
+          <%- include('../partials/projectCard', { project }) %>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="card text-center" style="padding: 4rem;">
+        <h3>No projects match your filter</h3>
+        <p style="color: var(--text-secondary); margin: 0.5rem 0 1.5rem;">Try choosing a different category or clearing your search term.</p>
+        <a href="/projects" class="btn btn-primary">View All Projects</a>
+      </div>
+    <% } %>
+  </div>
+</div>

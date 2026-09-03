@@ -1,0 +1,17 @@
+<div class="mentor-card">
+  <img src="<%= mentor.image %>" alt="<%= mentor.name %>" class="mentor-avatar" loading="lazy">
+  
+  <h3 class="mentor-name"><%= mentor.name %></h3>
+  <div class="mentor-role"><%= mentor.role %></div>
+  <div class="mentor-company">@ <%= mentor.company %></div>
+
+  <p class="mentor-bio"><%= mentor.bio %></p>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-light); width: 100%;">
+    <% if (mentor.expertise && mentor.expertise.length > 0) { %>
+      <% mentor.expertise.slice(0, 3).forEach(exp => { %>
+        <span class="pill-tag" style="font-size: 0.6875rem;"><%= exp %></span>
+      <% }) %>
+    <% } %>
+  </div>
+</div>

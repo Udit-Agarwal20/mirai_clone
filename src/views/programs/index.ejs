@@ -1,0 +1,59 @@
+<div class="section-sm" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      <a href="/">Home</a> / <span style="color: var(--text-primary);">Academic Programs</span>
+    </div>
+    <h1 style="font-size: 2.75rem; margin-bottom: 0.75rem;">Academic Programs</h1>
+    <p class="lead" style="max-width: 700px;">
+      Accredited 4-year B.Tech undergraduate degrees built from the ground up for the artificial intelligence era.
+    </p>
+
+    <!-- Filters & Search Form -->
+    <form action="/programs" method="GET" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 260px;">
+        <input type="text" name="search" class="form-control" placeholder="Search by program name or skill (e.g. Rust, CUDA, LLM)..." value="<%= filters.search %>">
+      </div>
+      
+      <div style="width: 200px;">
+        <select name="degree" class="form-select" onchange="this.form.submit()">
+          <option value="all" <%= filters.degree === 'all' ? 'selected' : '' %>>All Degrees</option>
+          <option value="B.Tech" <%= filters.degree === 'B.Tech' ? 'selected' : '' %>>B.Tech</option>
+        </select>
+      </div>
+
+      <div style="width: 240px;">
+        <select name="campus" class="form-select" onchange="this.form.submit()">
+          <option value="all" <%= filters.campus === 'all' ? 'selected' : '' %>>All Campuses</option>
+          <% if (campuses && campuses.length > 0) { %>
+            <% campuses.forEach(c => { %>
+              <option value="<%= c.slug %>" <%= filters.campus === c.slug ? 'selected' : '' %>><%= c.name %></option>
+            <% }) %>
+          <% } %>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Filter</button>
+      <% if (filters.search || filters.degree !== 'all' || filters.campus !== 'all') { %>
+        <a href="/programs" class="btn btn-secondary">Reset</a>
+      <% } %>
+    </form>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <% if (programs && programs.length > 0) { %>
+      <div class="grid grid-2">
+        <% programs.forEach(program => { %>
+          <%- include('../partials/programCard', { program }) %>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="card text-center" style="padding: 4rem;">
+        <h3>No programs matched your filter</h3>
+        <p style="color: var(--text-secondary); margin: 0.5rem 0 1.5rem;">Try clearing your search keyword or switching campus filters.</p>
+        <a href="/programs" class="btn btn-primary">View All Programs</a>
+      </div>
+    <% } %>
+  </div>
+</div>
