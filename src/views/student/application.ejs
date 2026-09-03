@@ -154,15 +154,18 @@
           <div class="form-group">
             <label class="form-label">Primary Program Choice <span class="required">*</span></label>
             <select name="programId" class="form-select" required>
-              <% if (!programs || programs.length === 0) { %>
-                <option value="" disabled selected>No programs found (Database needs seeding)</option>
-              <% } else { %>
-                <option value="" disabled <%= (!application.preferences?.program) ? 'selected' : '' %>>-- Select Academic Program --</option>
+              <option value="" disabled <%= (!application.preferences?.program) ? 'selected' : '' %>>-- Select Academic Program --</option>
+              <% if (programs && programs.length > 0) { %>
                 <% programs.forEach(p => { %>
                   <option value="<%= p._id %>" <%= (application.preferences?.program?.toString() === p._id.toString() || application.preferences?.program?._id?.toString() === p._id.toString()) ? 'selected' : '' %>>
                     <%= p.name %>
                   </option>
                 <% }) %>
+              <% } else { %>
+                <option value="btech-cse-ai">B.Tech Computer Science & Artificial Intelligence</option>
+                <option value="btech-ai-data-engineering">B.Tech Artificial Intelligence & Data Engineering</option>
+                <option value="btech-autonomous-systems-robotics">B.Tech Autonomous Systems & Robotics</option>
+                <option value="btech-product-engineering-fintech">B.Tech Product Engineering & FinTech</option>
               <% } %>
             </select>
           </div>
@@ -170,15 +173,17 @@
           <div class="form-group">
             <label class="form-label">Campus Preference <span class="required">*</span></label>
             <select name="campusId" class="form-select" required>
-              <% if (!campuses || campuses.length === 0) { %>
-                <option value="" disabled selected>No campuses found (Database needs seeding)</option>
-              <% } else { %>
-                <option value="" disabled <%= (!application.preferences?.campus) ? 'selected' : '' %>>-- Select Campus Location --</option>
+              <option value="" disabled <%= (!application.preferences?.campus) ? 'selected' : '' %>>-- Select Campus Location --</option>
+              <% if (campuses && campuses.length > 0) { %>
                 <% campuses.forEach(c => { %>
                   <option value="<%= c._id %>" <%= (application.preferences?.campus?.toString() === c._id.toString() || application.preferences?.campus?._id?.toString() === c._id.toString()) ? 'selected' : '' %>>
                     <%= c.name %> (<%= c.city %>)
                   </option>
                 <% }) %>
+              <% } else { %>
+                <option value="bengaluru-innovation-campus">Bengaluru Innovation Campus (Bengaluru)</option>
+                <option value="hyderabad-ai-corridor">Hyderabad AI Corridor (Hyderabad)</option>
+                <option value="pune-tech-valley">Pune Tech Valley (Pune)</option>
               <% } %>
             </select>
           </div>

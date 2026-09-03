@@ -12,11 +12,13 @@ const Application = require('../src/models/Application');
 const Enquiry = require('../src/models/Enquiry');
 const SavedCalculation = require('../src/models/SavedCalculation');
 
-const seedDatabase = async () => {
+const seedDatabase = async (shouldDisconnectAndExit = true) => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nova_institute';
-    await mongoose.connect(mongoUri);
-    console.log(`[Seed] Connected to MongoDB at ${mongoUri}`);
+    if (mongoose.connection.readyState !== 1) {
+      await mongoose.connect(mongoUri);
+      console.log(`[Seed] Connected to MongoDB at ${mongoUri}`);
+    }
 
     // Clear existing collections
     await Promise.all([
@@ -1700,12 +1702,22 @@ const seedDatabase = async () => {
     console.log(`Student 2:        priya.sharma@example.com / Student@12345 (App ID: NOVA-2026-004822)`);
     console.log('========================================\n');
 
-    await mongoose.disconnect();
-    process.exit(0);
+    if (shouldDisconnectAndExit) {
+      await mongoose.disconnect();
+      process.exit(0);
+    }
+    return true;
   } catch (err) {
     console.error('[Seed] Seeding error:', err);
-    process.exit(1);
+    if (shouldDisconnectAndExit) {
+      process.exit(1);
+    }
+    throw err;
   }
 };
 
-seedDatabase();
+if (require.main === module) {
+  seedDatabase(true);
+}
+
+module.exports = { seedDatabase };

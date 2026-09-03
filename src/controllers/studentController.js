@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Application = require('../models/Application');
 const Program = require('../models/Program');
 const Campus = require('../models/Campus');
@@ -136,20 +137,35 @@ exports.getApplicationForm = async (req, res, next) => {
     const student = await User.findById(req.user._id);
     let application = await Application.findOne({ student: student._id }).populate('preferences.program preferences.campus preferences.claimedScholarship');
 
-    const [programs, campuses, scholarships] = await Promise.all([
+    let [programs, campuses, scholarships] = await Promise.all([
       Program.find({ isActive: true }),
       Campus.find(),
       Scholarship.find({ isActive: true }).sort({ percentage: -1 }),
     ]);
+
+    // If database is completely fresh, automatically populate options on the fly
+    if (!programs || programs.length === 0 || !campuses || campuses.length === 0) {
+      try {
+        const { seedDatabase } = require('../../scripts/seed');
+        await seedDatabase(false);
+        [programs, campuses, scholarships] = await Promise.all([
+          Program.find({ isActive: true }),
+          Campus.find(),
+          Scholarship.find({ isActive: true }).sort({ percentage: -1 }),
+        ]);
+      } catch (e) {
+        console.warn('[StudentController] Auto-seed fallback warning:', e.message);
+      }
+    }
 
     res.render('student/application', {
       pageTitle: 'Admission Application | NOVA Institute of Technology',
       pageDescription: 'Complete your official B.Tech undergraduate application for NOVA.',
       student,
       application: application || {},
-      programs,
-      campuses,
-      scholarships,
+      programs: programs || [],
+      campuses: campuses || [],
+      scholarships: scholarships || [],
     });
   } catch (err) {
     next(err);
@@ -247,13 +263,13 @@ exports.submitApplication = async (req, res, next) => {
         codingExperience: codingExperience || 'Beginner (Basic Python/JS)',
       },
       preferences: {
-        program: programId,
-        alternateProgram: alternateProgramId || null,
-        campus: campusId,
-        alternateCampus: alternateCampusId || null,
+        program: mongoose.isValidObjectId(programId) ? programId : (await Program.findOne({ slug: programId }))?._id || (await Program.findOne())?._id,
+        alternateProgram: alternateProgramId && mongoose.isValidObjectId(alternateProgramId) ? alternateProgramId : null,
+        campus: mongoose.isValidObjectId(campusId) ? campusId : (await Campus.findOne({ slug: campusId }))?._id || (await Campus.findOne())?._id,
+        alternateCampus: alternateCampusId && mongoose.isValidObjectId(alternateCampusId) ? alternateCampusId : null,
         hostelRequired: hostelRequired === 'true' || hostelRequired === true || hostelRequired === 'on',
         scholarshipOptIn: scholarshipOptIn === 'true' || scholarshipOptIn === true || scholarshipOptIn === 'on',
-        claimedScholarship: scholarshipId && scholarshipId !== 'none' ? scholarshipId : null,
+        claimedScholarship: scholarshipId && mongoose.isValidObjectId(scholarshipId) ? scholarshipId : null,
       },
       statementOfPurpose: statementOfPurpose || '',
       careerGoal: careerGoal || '',
